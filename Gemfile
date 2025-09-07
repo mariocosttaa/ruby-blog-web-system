@@ -40,6 +40,8 @@ gem "thruster", require: false
 
 #manualy installed, MY LIBS
 gem "devise"
+gem 'htmlbeautifier'
+
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

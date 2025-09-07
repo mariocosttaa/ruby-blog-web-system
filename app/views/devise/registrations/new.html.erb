@@ -1,261 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - My Blog</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #181a25ff 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #181a25ff 0%, #764ba2 100%);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+      }
 
-        .signup-container {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-            overflow: hidden;
-        }
+      .signup-container {
+          background: white;
+          padding: 40px;
+          border-radius: 16px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 420px;
+          position: relative;
+          overflow: hidden;
+      }
 
-        .signup-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #090d1fff 0%, #764ba2 100%);
-        }
+      .signup-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #090d1fff 0%, #764ba2 100%);
+      }
 
-        .signup-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+      .signup-header {
+          text-align: center;
+          margin-bottom: 30px;
+      }
 
-        .blog-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #111216ff 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
+      .blog-icon {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, #111216ff 0%, #764ba2 100%);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 20px;
+          color: white;
+          font-size: 24px;
+          font-weight: bold;
+      }
 
-        .signup-title {
-            font-size: 28px;
-            color: #2d3748;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
+      .signup-title {
+          font-size: 28px;
+          color: #2d3748;
+          font-weight: 700;
+          margin-bottom: 8px;
+      }
 
-        .signup-subtitle {
-            color: #718096;
-            font-size: 14px;
-        }
+      .signup-subtitle {
+          color: #718096;
+          font-size: 14px;
+      }
 
-        .form-group {
-            margin-bottom: 24px;
-        }
+      .form-group {
+          margin-bottom: 24px;
+      }
 
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 14px;
-        }
+      .form-label {
+          display: block;
+          margin-bottom: 8px;
+          color: #2d3748;
+          font-weight: 600;
+          font-size: 14px;
+      }
 
-        .password-hint {
-            color: #718096;
-            font-size: 12px;
-            font-style: italic;
-            margin-left: 4px;
-        }
+      .password-hint {
+          color: #718096;
+          font-size: 12px;
+          font-style: italic;
+          margin-left: 4px;
+      }
 
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
+      .form-input {
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+          background: #f7fafc;
+      }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #171924ff;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(23, 25, 36, 0.1);
-        }
+      .form-input:focus {
+          outline: none;
+          border-color: #171924ff;
+          background: white;
+          box-shadow: 0 0 0 3px rgba(23, 25, 36, 0.1);
+      }
 
-        .signup-button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #1a1d2aff 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
+      .signup-button {
+          width: 100%;
+          padding: 14px;
+          background: linear-gradient(135deg, #1a1d2aff 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
 
-        .signup-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(26, 29, 42, 0.3);
-        }
+      .signup-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(26, 29, 42, 0.3);
+      }
 
-        .signup-button:active {
-            transform: translateY(0);
-        }
+      .signup-button:active {
+          transform: translateY(0);
+      }
 
-        .signup-links {
-            text-align: center;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid #e2e8f0;
-        }
+      .signup-links {
+          text-align: center;
+          margin-top: 24px;
+          padding-top: 24px;
+          border-top: 1px solid #e2e8f0;
+      }
 
-        .signup-links a {
-            color: #171924ff;
-            text-decoration: none;
-            font-size: 14px;
-            margin: 0 8px;
-            transition: color 0.3s ease;
-        }
+      .signup-links a {
+          color: #171924ff;
+          text-decoration: none;
+          font-size: 14px;
+          margin: 0 8px;
+          transition: color 0.3s ease;
+      }
 
-        .signup-links a:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
+      .signup-links a:hover {
+          color: #764ba2;
+          text-decoration: underline;
+      }
 
-        .error-message {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #c53030;
-        }
+      .error-message {
+          background: #fed7d7;
+          color: #c53030;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 20px;
+          font-size: 14px;
+          border-left: 4px solid #c53030;
+      }
 
-        .error-message h2 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
+      .error-message h2 {
+          font-size: 16px;
+          margin-bottom: 8px;
+      }
 
-        .error-message ul {
-            margin-left: 16px;
-        }
+      .error-message ul {
+          margin-left: 16px;
+      }
 
-        .error-message li {
-            margin-bottom: 4px;
-        }
+      .error-message li {
+          margin-bottom: 4px;
+      }
 
-        .success-message {
-            background: #c6f6d5;
-            color: #2f855a;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #2f855a;
-        }
+      .success-message {
+          background: #c6f6d5;
+          color: #2f855a;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 20px;
+          font-size: 14px;
+          border-left: 4px solid #2f855a;
+      }
 
-        @media (max-width: 480px) {
-            .signup-container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .signup-title {
-                font-size: 24px;
-            }
-        }
+      @media (max-width: 480px) {
+          .signup-container {
+              padding: 30px 20px;
+              margin: 10px;
+          }
+
+          .signup-title {
+              font-size: 24px;
+          }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="signup-container">
-        <div class="signup-header">
-            <div class="blog-icon">B</div>
-            <h2 class="signup-title">Create Account</h2>
-            <p class="signup-subtitle">Join our blog community</p>
+      <div class="signup-header">
+        <div class="blog-icon">B</div>
+        <h2 class="signup-title">Create Account</h2>
+        <p class="signup-subtitle">Join our blog community</p>
+      </div>
+      <!-- Flash messages (Rails) -->
+      <% if notice %>
+        <div class="success-message"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="error-message"><%= alert %></div>
+      <% end %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="form-group">
+          <%= f.label :name, "Name", class: "form-label" %>
+          <%= f.text_field :name, 
+                    autofocus: true, 
+                    placeholder: "Name",
+                    class: "form-input" %>
         </div>
-
-        <!-- Flash messages (Rails) -->
-        <% if notice %>
-            <div class="success-message"><%= notice %></div>
-        <% end %>
-        
-        <% if alert %>
-            <div class="error-message"><%= alert %></div>
-        <% end %>
-
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form" }) do |f| %>
-            <%= render "devise/shared/error_messages", resource: resource %>
-
-            <div class="form-group">
-                <%= f.label :email, "Email Address", class: "form-label" %>
-                <%= f.email_field :email, 
+        <div class="form-group">
+          <%= f.label :name, "Surname", class: "form-label" %>
+          <%= f.text_field :surname, 
+                    autofocus: true, 
+                    placeholder: "Surname",
+                    class: "form-input" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, 
                     autofocus: true, 
                     autocomplete: "email",
                     placeholder: "Enter your email address",
                     class: "form-input" %>
-            </div>
-
-            <div class="form-group">
-                <%= f.label :password, class: "form-label" do %>
-                    Password
-                    <% if @minimum_password_length %>
-                        <span class="password-hint">(<%= @minimum_password_length %> characters minimum)</span>
-                    <% end %>
-                <% end %>
-                <%= f.password_field :password, 
+        </div>
+        <div class="form-group">
+          <%= f.label :password, class: "form-label" do %>
+            Password
+            <% if @minimum_password_length %>
+              <span class="password-hint">(<%= @minimum_password_length %> characters minimum)</span>
+            <% end %>
+          <% end %>
+          <%= f.password_field :password, 
                     autocomplete: "new-password",
                     placeholder: "Create a secure password",
                     class: "form-input" %>
-            </div>
-
-            <div class="form-group">
-                <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
-                <%= f.password_field :password_confirmation, 
+        </div>
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.password_field :password_confirmation, 
                     autocomplete: "new-password",
                     placeholder: "Confirm your password",
                     class: "form-input" %>
-            </div>
-
-            <div class="form-group">
-                <%= f.submit "Create Account", class: "signup-button" %>
-            </div>
-        <% end %>
-
-        <div class="signup-links">
-            <%= render "devise/shared/links" %>
         </div>
+        <div class="form-group">
+          <%= f.submit "Create Account", class: "signup-button" %>
+        </div>
+      <% end %>
+      <div class="signup-links">
+        <%= render "devise/shared/links" %>
+      </div>
     </div>
-</body>
+  </body>
 </html>

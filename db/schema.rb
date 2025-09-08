@@ -13,6 +13,7 @@
 ActiveRecord::Schema[8.0].define(version: 2025_09_06_200526) do
   create_table "post_categories", force: :cascade do |t|
     t.string "name", null: false
+    t.string "slug", null: false
     t.text "description"
     t.boolean "status", default: true
     t.datetime "created_at", null: false

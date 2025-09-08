@@ -3,8 +3,19 @@ class Panel::CategoriesController < ApplicationController
   layout "panel/panel_layout"
 
   def index
-      @post_categories = PostCategory.all.order(created_at: :desc)
+    @post_categories = PostCategory.all.order(created_at: :desc)
+
+    if @post_categories.present?
+      @post_categories.each do |category|
+        # Sobrescreve o método id no objeto apenas para views
+        real_id = category.id
+        category.define_singleton_method(:id) do
+          HASHIDS_CATEGORY.encode(real_id)
+        end
+      end
+    end
   end
+
 
   def new
      @post_category = PostCategory.new
@@ -34,6 +45,8 @@ class Panel::CategoriesController < ApplicationController
       end
   end
   def destroy
+    @post_category.destroy
+    redirect_to panel_categories_index_path, type: :success, notice: "Category was successfully deleted."
   end
 
   private
@@ -42,7 +55,10 @@ class Panel::CategoriesController < ApplicationController
   end
 
   def set_post_category
-      @post_category = PostCategory.find_by(id: params[:id])
+     id_hash = params[:id]
+     unHash_id = HASHIDS_CATEGORY.decode(id_hash).first rescue nil
+
+      @post_category = PostCategory.find_by(id: unHash_id)
       redirect_to panel_categories_index_path, type: :danger, status: :unprocessable_entity, alert: "Category not found." unless @post_category
   end
 end

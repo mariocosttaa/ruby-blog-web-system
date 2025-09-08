@@ -33,9 +33,7 @@
               <!-- Buttons -->
               <div class="mt-auto gap-1">
                 <%= link_to "Edit", panel_edit_category_path(category.id), class: "btn btn-sm btn-outline-secondary" %>
-                <%= link_to "Delete", panel_destroy_category_path(category.id),
-                            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                            class: "btn btn-sm btn-outline-danger" %>
+                <%= button_to "Delete", panel_destroy_category_path(category.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
               </div>
             </div>
           </div>

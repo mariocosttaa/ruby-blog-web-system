@@ -1,15 +1,18 @@
 Rails.application.routes.draw do
+  # PANEL ROUTES
+  namespace :panel do
+    # Dashboard
+    get "dashboard", to: "dashboard#index", as: :dashboard_index
+
+    # Categories (manuais, helpers já com panel_ prefix)
+    get    "categories",       to: "categories#index",   as: :categories_index
+    get    "categories/new",         to: "categories#new",     as: :new_category
+    post   "categories/create",      to: "categories#create",  as: :create_category
+    get    "categories/edit/:id",    to: "categories#edit",    as: :edit_category
+    patch  "categories/update/:id",  to: "categories#update",  as: :update_category
+    delete "categories/destroy/:id", to: "categories#destroy", as: :destroy_category
+  end
+
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

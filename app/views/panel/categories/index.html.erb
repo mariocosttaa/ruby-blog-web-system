@@ -1,0 +1,48 @@
+<!-- Header -->
+<%= render "panel/_components/header", 
+    title: "Categories", 
+    subtitle: "View All Categories", 
+    breadcrumbs: (
+        content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+        content_tag(:li, "Categories", class: "breadcrumb-item active", aria: { current: "page" })
+    ),
+    action_button: link_to("Create Category", panel_new_category_path, class: "btn btn-sm btn-primary") %>
+
+
+<%= render "panel/_components/alert_message" %>
+
+<div class="container my-4">
+  <% if @post_categories.empty? %>
+    <div class="alert alert-info text-center">
+      No categories available.
+      <%= link_to "Create one now", panel_new_category_path, class: "btn btn-sm btn-primary ms-2" %>
+    </div>
+  <% else %>
+    <div class="row g-3">
+      <% @post_categories.each do |category| %>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
+            
+            <!-- Top colored bar -->
+            <div class="bg-primary" style="height: 5px;"></div>
+            
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-bold text-dark"><%= category.name %></h5>
+              <p class="card-text text-muted mb-3"><%= category.description.presence || "No description provided." %></p>
+              
+              <!-- Buttons -->
+              <div class="mt-auto gap-1">
+                <%= link_to "Edit", panel_edit_category_path(category.id), class: "btn btn-sm btn-outline-secondary" %>
+                <%= link_to "Delete", panel_destroy_category_path(category.id),
+                            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                            class: "btn btn-sm btn-outline-danger" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+

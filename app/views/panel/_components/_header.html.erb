@@ -1,0 +1,30 @@
+<div class="page-header mb-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+    
+    <!-- Left: Title & Subtitle -->
+    <div>
+      <h1 class="page-title mb-1"><%= local_assigns[:title] || "Page Title" %></h1>
+      <% if local_assigns[:subtitle] %>
+        <p class="page-subtitle text-muted mb-0"><%= local_assigns[:subtitle] %></p>
+      <% end %>
+    </div>
+
+    <!-- Right: Breadcrumbs + Action Button -->
+    <div class="d-flex flex-column align-items-md-end mt-3 mt-md-0">
+      <% if local_assigns[:breadcrumbs] %>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-2 mb-md-1">
+            <%= local_assigns[:breadcrumbs] %>
+          </ol>
+        </nav>
+      <% end %>
+
+      <% if local_assigns[:action_button] %>
+        <div>
+          <%= local_assigns[:action_button] %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

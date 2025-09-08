@@ -1,0 +1,24 @@
+<%# Usage: render "panel/components/form_errors", errors: @post_category.errors.full_messages %>
+
+<% if errors.present? %>
+  <div class="alert alert-danger alert-dismissible fade show d-flex align-items-start" role="alert">
+    <div class="me-2">
+      <!-- Optional icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="bi flex-shrink-0 me-2" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12a5 5 0 1 1 0-10A5 5 0 0 1 8 13z"/>
+        <path d="M7.002 5a1 1 0 1 1 2 0v4a1 1 0 1 1-2 0V5zm.998 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+      </svg>
+    </div>
+
+    <div>
+      <strong>There were errors with your submission:</strong>
+      <ul class="mb-0 mt-1">
+        <% errors.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

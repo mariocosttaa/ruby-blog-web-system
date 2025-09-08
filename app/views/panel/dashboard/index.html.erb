@@ -1,145 +1,140 @@
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="dashboard-container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Dashboard</h1>
-                <p class="page-subtitle">Overview of your blog's performance and quick access to management tools</p>
-            </div>
+<main class="container my-4">
+  <!-- Page Header -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-dark">Dashboard</h1>
+    <p class="text-muted">Overview of your blog's performance and quick access to management tools</p>
+  </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📝</div>
-                    <div class="stat-content">
-                        <div class="stat-number">24</div>
-                        <div class="stat-label">Total Posts</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📂</div>
-                    <div class="stat-content">
-                        <div class="stat-number">8</div>
-                        <div class="stat-label">Categories</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🏷️</div>
-                    <div class="stat-content">
-                        <div class="stat-number">15</div>
-                        <div class="stat-label">Tags</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💬</div>
-                    <div class="stat-content">
-                        <div class="stat-number">42</div>
-                        <div class="stat-label">Comments</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Content Grid -->
-            <div class="main-grid">
-                <!-- Management Section -->
-                <div class="management-section">
-                    <h2 class="section-title">
-                        <div class="section-icon">⚡</div>
-                        Content Management
-                    </h2>
-                    <div class="management-grid">
-                        <div class="mgmt-item">
-                            <div class="mgmt-header">
-                                <span class="mgmt-icon">📝</span>
-                                <span class="mgmt-title">Posts</span>
-                            </div>
-                            <div class="mgmt-desc">Create, edit and manage all your blog posts</div>
-                            <div class="mgmt-actions">
-                                <a href="/admin/posts" class="btn-small btn-primary-small">View All</a>
-                                <a href="/admin/posts/new" class="btn-small btn-ghost-small">+ New</a>
-                            </div>
-                        </div>
-
-                        <div class="mgmt-item">
-                            <div class="mgmt-header">
-                                <span class="mgmt-icon">📂</span>
-                                <span class="mgmt-title">Categories</span>
-                            </div>
-                            <div class="mgmt-desc">Organize your content with categories</div>
-                            <div class="mgmt-actions">
-                                <a href="/admin/categories" class="btn-small btn-primary-small">Manage</a>
-                                <a href="/admin/categories/new" class="btn-small btn-ghost-small">+ Add</a>
-                            </div>
-                        </div>
-
-                        <div class="mgmt-item">
-                            <div class="mgmt-header">
-                                <span class="mgmt-icon">🏷️</span>
-                                <span class="mgmt-title">Tags</span>
-                            </div>
-                            <div class="mgmt-desc">Create and manage content tags</div>
-                            <div class="mgmt-actions">
-                                <a href="/admin/tags" class="btn-small btn-primary-small">Manage</a>
-                                <a href="/admin/tags/new" class="btn-small btn-ghost-small">+ Add</a>
-                            </div>
-                        </div>
-
-                        <div class="mgmt-item">
-                            <div class="mgmt-header">
-                                <span class="mgmt-icon">💬</span>
-                                <span class="mgmt-title">Comments</span>
-                            </div>
-                            <div class="mgmt-desc">Moderate and manage user comments</div>
-                            <div class="mgmt-actions">
-                                <a href="/admin/comments" class="btn-small btn-primary-small">View All</a>
-                                <a href="/admin/comments/pending" class="btn-small btn-ghost-small">Pending</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="sidebar">
-                    <!-- Quick Actions -->
-                    <div class="sidebar-card">
-                        <h3 class="sidebar-title">Quick Actions</h3>
-                        <div class="quick-buttons">
-                            <a href="/admin/posts/new" class="quick-btn">
-                                ✍️ Write New Post
-                            </a>
-                            <a href="/admin/settings" class="quick-btn">
-                                ⚙️ Settings
-                            </a>
-                            <a href="/" class="quick-btn">
-                                🏠 View Blog
-                            </a>
-                            <a href="/admin/analytics" class="quick-btn">
-                                📊 Analytics
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="sidebar-card">
-                        <h3 class="sidebar-title">Recent Activity</h3>
-                        <div class="activity-item">
-                            <div class="activity-time">2 minutes ago</div>
-                            <div class="activity-text">New comment on "Getting Started with Rails"</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-time">1 hour ago</div>
-                            <div class="activity-text">Post "Advanced Rails Tips" published</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-time">3 hours ago</div>
-                            <div class="activity-text">New user registration</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-time">5 hours ago</div>
-                            <div class="activity-text">Category "Tutorials" created</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Stats Grid -->
+  <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
+    <div class="col">
+      <div class="card shadow-sm border-0 text-center h-100">
+        <div class="card-body">
+          <div class="fs-2 mb-2">📝</div>
+          <h3 class="card-title fw-bold">24</h3>
+          <p class="text-muted mb-0">Total Posts</p>
         </div>
-    </main>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm border-0 text-center h-100">
+        <div class="card-body">
+          <div class="fs-2 mb-2">📂</div>
+          <h3 class="card-title fw-bold">8</h3>
+          <p class="text-muted mb-0">Categories</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm border-0 text-center h-100">
+        <div class="card-body">
+          <div class="fs-2 mb-2">🏷️</div>
+          <h3 class="card-title fw-bold">15</h3>
+          <p class="text-muted mb-0">Tags</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm border-0 text-center h-100">
+        <div class="card-body">
+          <div class="fs-2 mb-2">💬</div>
+          <h3 class="card-title fw-bold">42</h3>
+          <p class="text-muted mb-0">Comments</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="row g-4">
+    <!-- Management Section -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0 p-3">
+        <h2 class="fw-bold mb-4"><span class="me-2">⚡</span> Content Management</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+          <!-- Posts -->
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title"><span class="me-2">📝</span> Posts</h5>
+                <p class="card-text text-muted flex-grow-1">Create, edit and manage all your blog posts</p>
+                <div class="d-flex gap-2">
+                  <a href="/admin/posts" class="btn btn-sm btn-primary w-50">View All</a>
+                  <a href="/admin/posts/new" class="btn btn-sm btn-outline-primary w-50">+ New</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Categories -->
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title"><span class="me-2">📂</span> Categories</h5>
+                <p class="card-text text-muted flex-grow-1">Organize your content with categories</p>
+                <div class="d-flex gap-2">
+                  <a href="/admin/categories" class="btn btn-sm btn-primary w-50">Manage</a>
+                  <a href="/admin/categories/new" class="btn btn-sm btn-outline-primary w-50">+ Add</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tags -->
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title"><span class="me-2">🏷️</span> Tags</h5>
+                <p class="card-text text-muted flex-grow-1">Create and manage content tags</p>
+                <div class="d-flex gap-2">
+                  <a href="/admin/tags" class="btn btn-sm btn-primary w-50">Manage</a>
+                  <a href="/admin/tags/new" class="btn btn-sm btn-outline-primary w-50">+ Add</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Comments -->
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title"><span class="me-2">💬</span> Comments</h5>
+                <p class="card-text text-muted flex-grow-1">Moderate and manage user comments</p>
+                <div class="d-flex gap-2">
+                  <a href="/admin/comments" class="btn btn-sm btn-primary w-50">View All</a>
+                  <a href="/admin/comments/pending" class="btn btn-sm btn-outline-primary w-50">Pending</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+
+      <!-- Recent Activity -->
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">Recent Activity</h5>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2">
+              <small class="text-muted">2 minutes ago</small>
+              <div>New comment on "Getting Started with Rails"</div>
+            </li>
+            <li class="mb-2">
+              <small class="text-muted">1 hour ago</small>
+              <div>Post "Advanced Rails Tips" published</div>
+            </li>
+            <li class="mb-2">
+              <small class="text-muted">3 hours ago</small>
+              <div>New user registration</div>
+            </li>
+            <li>
+              <small class="text-muted">5 hours ago</small>
+              <div>Category "Tutorials" created</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

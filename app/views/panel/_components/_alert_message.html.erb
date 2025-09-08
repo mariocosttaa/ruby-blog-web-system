@@ -1,0 +1,25 @@
+<% flash.each do |type, message| %>
+  <%# Map Rails flash types to Bootstrap alert classes %>
+  <% bootstrap_class = case type.to_sym
+     when :notice then "alert-success"
+     when :success then "alert-success"
+     when :alert then "alert-warning"
+     when :error then "alert-danger"
+     else "alert-info"
+     end %>
+
+  <div class="alert <%= bootstrap_class %> alert-dismissible fade show" role="alert">
+    <%# Optional icon based on type %>
+    <% icon = case type.to_sym
+       when :notice, :success then "✅"
+       when :alert then "⚠️"
+       when :error then "❌"
+       else "ℹ️"
+       end %>
+    
+    <span class="me-2"><%= icon %></span>
+    <%= message %>
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

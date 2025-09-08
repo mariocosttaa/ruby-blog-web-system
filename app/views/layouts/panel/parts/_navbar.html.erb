@@ -1,25 +1,40 @@
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="/admin" class="navbar-brand">
-                <div class="navbar-logo">B</div>
-                <span class="navbar-title">Blog Admin</span>
-            </a>
-            
-            <ul class="navbar-nav">
-                <li><a href="/admin" class="nav-link active">Dashboard</a></li>
-                <li><a href="/admin/posts" class="nav-link">Posts</a></li>
-                <li><a href="/admin/categories" class="nav-link">Categories</a></li>
-                <li><a href="/admin/tags" class="nav-link">Tags</a></li>
-                <li><a href="/admin/comments" class="nav-link">Comments</a></li>
-                <li><a href="/" class="nav-link">View Site</a></li>
-            </ul>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7c3aed;">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="/admin">
+      <span class="navbar-title fw-bold text-white">Blog Admin</span>
+    </a>
 
-            <div class="navbar-user">
-                <span class="user-name">Admin User</span>
-                <a href="/logout" class="logout-btn">Logout</a>
-            </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <button class="mobile-menu-toggle">☰</button>
-        </div>
-    </nav>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to 'Dashboard', panel_dashboard_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/dashboard'}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Tags', '#', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Posts', '#', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Categories', panel_categories_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/categories'}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Comments', '#', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'View Site', '#', class: 'nav-link' %>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3"><strong>Admin User</strong></span>
+        <%= link_to 'Logout', '/logout', method: :delete, class: 'btn btn-outline-light btn-sm' %>
+      </div>
+    </div>
+  </div>
+</nav>

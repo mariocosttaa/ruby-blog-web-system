@@ -1,0 +1,50 @@
+<!-- Header -->
+<%= render "panel/_components/header", 
+    title: "Categories", 
+    subtitle: "View All Categories", 
+    breadcrumbs: (
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Categories", class: "breadcrumb-item active", aria: { current: "page" })
+    ) %>
+
+    
+<!-- Form Container -->
+<div class="container my-4">
+  
+  <!-- Error Messages -->
+  <% if @post_category.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% @post_category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm rounded-3 border-0">
+    <div class="card-body">
+      <%= form_with model: @post_category, url: panel_create_category_path, local: true do |form| %>
+
+        <!-- Name Field -->
+        <div class="mb-3">
+          <%= form.label :name, "Category Name", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter category name" %>
+        </div>
+
+        <!-- Description Field -->
+        <div class="mb-3">
+          <%= form.label :description, "Description", class: "form-label" %>
+          <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter description (optional)" %>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <%= link_to "Back", panel_categories_index_path, class: "btn btn-secondary" %>
+          <%= form.submit "Create Category", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

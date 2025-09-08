@@ -1,0 +1,238 @@
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Create New Post</h1>
+            <p class="page-subtitle">Write and publish a new blog post</p>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="create-post-form">
+                <!-- Post Title -->
+                <div class="form-group">
+                    <label class="form-label" for="post-title">Post Title *</label>
+                    <input type="text" id="post-title" name="title" class="form-input" placeholder="Enter your post title..." required>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="form-group">
+                    <label class="form-label">Featured Image</label>
+                    <div class="image-upload-container" id="image-upload-area">
+                        <input type="file" id="featured-image" name="image" class="file-input" accept="image/*">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Click to upload image</div>
+                        <div class="upload-subtext">Or drag and drop your image here</div>
+                        <div class="upload-subtext">Supported formats: JPG, PNG, GIF (Max 5MB)</div>
+                    </div>
+                    <div class="image-preview" id="image-preview" style="display: none;">
+                        <img id="preview-img" class="preview-image" alt="Preview">
+                        <br>
+                        <button type="button" class="remove-image" id="remove-image">Remove Image</button>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="form-group">
+                    <label class="form-label" for="categories">Categories</label>
+                    <select id="categories" name="categories" class="select-multiple" multiple>
+                        <option value="technology">Technology</option>
+                        <option value="programming">Programming</option>
+                        <option value="web-development">Web Development</option>
+                        <option value="mobile-development">Mobile Development</option>
+                        <option value="data-science">Data Science</option>
+                        <option value="artificial-intelligence">Artificial Intelligence</option>
+                        <option value="tutorials">Tutorials</option>
+                        <option value="reviews">Reviews</option>
+                        <option value="news">News</option>
+                        <option value="tips-tricks">Tips & Tricks</option>
+                        <option value="lifestyle">Lifestyle</option>
+                        <option value="business">Business</option>
+                    </select>
+                    <div class="help-text">Hold Ctrl (or Cmd on Mac) to select multiple categories</div>
+                </div>
+
+                <!-- Content Editor -->
+                <div class="form-group">
+                    <label class="form-label" for="post-content">Content *</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="editor-btn" onclick="insertText('**', '**')" title="Bold">B</button>
+                        <button type="button" class="editor-btn" onclick="insertText('*', '*')" title="Italic">I</button>
+                        <button type="button" class="editor-btn" onclick="insertText('# ', '')" title="Heading 1">H1</button>
+                        <button type="button" class="editor-btn" onclick="insertText('## ', '')" title="Heading 2">H2</button>
+                        <button type="button" class="editor-btn" onclick="insertText('### ', '')" title="Heading 3">H3</button>
+                        <button type="button" class="editor-btn" onclick="insertText('- ', '')" title="List">List</button>
+                        <button type="button" class="editor-btn" onclick="insertText('[Link Text](', ')')" title="Link">Link</button>
+                        <button type="button" class="editor-btn" onclick="insertText('`', '`')" title="Code">Code</button>
+                        <button type="button" class="editor-btn" onclick="insertText('> ', '')" title="Quote">Quote</button>
+                    </div>
+                    <textarea id="post-content" name="content" class="form-input form-textarea with-toolbar" placeholder="Write your post content here using Markdown formatting..." required></textarea>
+                    <div class="help-text">
+                        Use Markdown formatting: **bold**, *italic*, # headings, - lists, [links](url), `code`, > quotes
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="form-group">
+                    <label class="form-label">Tags</label>
+                    <div class="tags-container" id="tags-container">
+                        <input type="text" class="tag-input" id="tag-input" placeholder="Type and press Enter to add tags...">
+                    </div>
+                    <div class="help-text">Press Enter or comma to add tags. Use relevant keywords to help readers find your post.</div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="/admin" class="btn btn-secondary">Cancel</a>
+                    <button type="button" class="btn btn-outline" id="save-draft">Save Draft</button>
+                    <button type="submit" class="btn btn-primary">Publish Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Image Upload Functionality
+        const imageUploadArea = document.getElementById('image-upload-area');
+        const fileInput = document.getElementById('featured-image');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const removeImageBtn = document.getElementById('remove-image');
+
+        // Click to upload
+        imageUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // File input change
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.add('dragover');
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.classList.remove('dragover');
+        });
+
+        imageUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // Remove image
+        removeImageBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            imagePreview.style.display = 'none';
+            imageUploadArea.style.display = 'block';
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Tags Functionality
+        const tagsContainer = document.getElementById('tags-container');
+        const tagInput = document.getElementById('tag-input');
+        let tags = [];
+
+        tagInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addTag();
+            }
+        });
+
+        tagInput.addEventListener('blur', addTag);
+
+        function addTag() {
+            const tagText = tagInput.value.trim().replace(',', '');
+            if (tagText && !tags.includes(tagText.toLowerCase())) {
+                tags.push(tagText.toLowerCase());
+                
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.innerHTML = `
+                    ${tagText}
+                    <button type="button" class="tag-remove" onclick="removeTag('${tagText.toLowerCase()}', this.parentElement)">×</button>
+                `;
+                
+                tagsContainer.insertBefore(tagElement, tagInput);
+                tagInput.value = '';
+            }
+        }
+
+        function removeTag(tagText, tagElement) {
+            tags = tags.filter(tag => tag !== tagText);
+            tagElement.remove();
+        }
+
+        // Text Editor Functions
+        function insertText(before, after) {
+            const textarea = document.getElementById('post-content');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            const newText = before + selectedText + after;
+            textarea.value = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+            
+            // Set cursor position
+            const newCursorPos = start + before.length + selectedText.length;
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+            textarea.focus();
+        }
+
+        // Form Submission
+        document.getElementById('create-post-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('post-title').value);
+            formData.append('content', document.getElementById('post-content').value);
+            formData.append('image', document.getElementById('featured-image').files[0]);
+            
+            // Categories
+            const selectedCategories = Array.from(document.getElementById('categories').selectedOptions).map(option => option.value);
+            formData.append('categories', JSON.stringify(selectedCategories));
+            
+            // Tags
+            formData.append('tags', JSON.stringify(tags));
+            
+            // Here you would normally send the data to your server
+            alert('Post would be published! (This is a demo)');
+            console.log('Form data ready to submit:', {
+                title: document.getElementById('post-title').value,
+                content: document.getElementById('post-content').value,
+                categories: selectedCategories,
+                tags: tags,
+                hasImage: document.getElementById('featured-image').files.length > 0
+            });
+        });
+
+        // Save Draft
+        document.getElementById('save-draft').addEventListener('click', () => {
+            alert('Draft saved! (This is a demo)');
+        });
+    </script>

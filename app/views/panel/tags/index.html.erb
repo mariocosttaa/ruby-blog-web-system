@@ -1,0 +1,102 @@
+<!-- Header -->
+<%= render "panel/_components/header",
+    title: "Tags",
+    subtitle: "View All Tags",
+    breadcrumbs: (
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Tags", class: "breadcrumb-item active", aria: { current: "page" })
+    ),
+    action_button: link_to("Create Tag", panel_new_tag_path, class: "btn btn-sm btn-primary") %>
+
+<%= render "panel/_components/alert_message" %>
+
+<div class="container my-4">
+  <% if @tags.empty? %>
+    <div class="alert alert-info text-center">
+      No tags available.
+      <%= link_to "Create one now", panel_new_tag_path, class: "btn btn-sm btn-primary ms-2" %>
+    </div>
+  <% else %>
+    <div class="row g-3">
+      <% @tags.each do |tag| %>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
+            <!-- Top colored bar with orange theme -->
+            <div style="height: 5px;" class="bg bg-primary"></div>
+            
+            <div class="card-body d-flex flex-column">
+              <!-- Tag Icon and Name -->
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3">
+                  <i class="fas fa-tag text-warning" style="font-size: 1.5rem;"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <h5 class="card-title fw-bold text-dark mb-1">
+                    <%= truncate(tag.name, length: 20) %>
+                  </h5>
+                  <small class="text-muted">
+                    <i class="fas fa-hashtag me-1"></i><%= tag.name.downcase.gsub(' ', '') %>
+                  </small>
+                </div>
+              </div>
+              
+              <!-- Status Badge -->
+              <div class="mb-3">
+                <% if tag.status %>
+                  <span class="badge bg-success">
+                    <i class="fas fa-check-circle me-1"></i>Active
+                  </span>
+                <% else %>
+                  <span class="badge bg-danger">
+                    <i class="fas fa-times-circle me-1"></i>Inactive
+                  </span>
+                <% end %>
+              </div>
+              
+              <!-- Posts Count (if you have this relationship) -->
+              <div class="mb-3">
+                <small class="text-muted d-flex align-items-center">
+                  <i class="fas fa-file-alt me-2"></i>
+                  <span><%= tag.posts.count rescue 0 %> posts</span>
+                </small>
+              </div>
+              
+              <!-- Meta Information -->
+              <div class="small text-muted mb-3 flex-grow-1">
+                <div class="mb-2">
+                  <i class="fas fa-calendar-plus me-1"></i>
+                  Created: <%= tag.created_at.strftime("%b %d, %Y") %>
+                </div>
+                <% if tag.updated_at != tag.created_at %>
+                  <div>
+                    <i class="fas fa-calendar-check me-1"></i>
+                    Updated: <%= tag.updated_at.strftime("%b %d, %Y") %>
+                  </div>
+                <% end %>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="mt-auto d-flex gap-2">
+                <%= link_to panel_edit_tag_path(tag.id), 
+                    class: "btn btn-sm btn-outline-warning flex-fill",
+                    title: "Edit Tag" do %>
+                  <i class="fas fa-edit me-1"></i> Edit
+                <% end %>
+                
+                <%= button_to panel_destroy_tag_path(tag.id), 
+                    method: :delete, 
+                    data: { 
+                      confirm: "Are you sure you want to delete the tag '#{tag.name}'?" 
+                    }, 
+                    class: "btn btn-sm btn-outline-danger flex-fill",
+                    title: "Delete Tag" do %>
+                  <i class="fas fa-trash me-1"></i> Delete
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

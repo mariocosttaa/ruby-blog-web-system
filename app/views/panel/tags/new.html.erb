@@ -1,0 +1,41 @@
+<!-- Header -->
+<%= render "panel/_components/header", 
+    title: "Create New Tag", 
+    subtitle: "Create a new tag to use in posts", 
+    breadcrumbs: (
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Tags", class: "breadcrumb-item active", aria: { current: "page" })
+    ) %>
+
+
+<!-- Form Container -->
+<div class="container my-4">
+  
+<%= render "panel/_components/form_errors", errors: @tag.errors.full_messages %>
+
+  <div class="card shadow-sm rounded-3 border-0">
+    <div class="card-body">
+      <%= form_with model: @tag, url: panel_create_tag_path, local: true do |form| %>
+
+        <!-- Name Field -->
+        <div class="mb-3">
+          <%= form.label :name, "Tag Name *", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter tag name", required: true %>
+        </div>
+
+        <!-- Status Switch -->
+        <div class="form-check form-switch mb-3">
+          <%= form.check_box :status, class: "form-check-input", role: "switch" %>
+          <%= form.label :status, "Active?", class: "form-check-label" %>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <%= link_to "Back", panel_tags_index_path, class: "btn btn-secondary" %>
+          <%= form.submit "Create Tag", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

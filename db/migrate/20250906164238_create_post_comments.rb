@@ -1,6 +1,6 @@
 class CreatePostComments < ActiveRecord::Migration[8.0]
   def change
-    create_table :posts_comments do |t|
+    create_table :post_comments do |t|
       # relations PostId
       t.references :post, null: false, foreign_key: true
       t.string :name, null: false

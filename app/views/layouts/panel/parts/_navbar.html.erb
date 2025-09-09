@@ -15,10 +15,10 @@
           <%= link_to 'Dashboard', panel_dashboard_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/dashboard'}" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Tags', '#', class: 'nav-link' %>
+          <%= link_to 'Tags', panel_tags_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/tags'}" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Posts', '#', class: 'nav-link' %>
+          <%= link_to 'Posts', panel_posts_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/posts'}" %>
         </li>
         <li class="nav-item">
           <%= link_to 'Categories', panel_categories_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/categories'}" %>

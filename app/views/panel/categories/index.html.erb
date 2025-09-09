@@ -1,39 +1,106 @@
 <!-- Header -->
-<%= render "panel/_components/header", 
-    title: "Categories", 
-    subtitle: "View All Categories", 
+<%= render "panel/_components/header",
+    title: "Categories",
+    subtitle: "View All Categories",
     breadcrumbs: (
-        content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-        content_tag(:li, "Categories", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Categories", class: "breadcrumb-item active", aria: { current: "page" })
     ),
     action_button: link_to("Create Category", panel_new_category_path, class: "btn btn-sm btn-primary") %>
-
 
 <%= render "panel/_components/alert_message" %>
 
 <div class="container my-4">
-  <% if @post_categories.empty? %>
+  <% if @categories.empty? %>
     <div class="alert alert-info text-center">
       No categories available.
       <%= link_to "Create one now", panel_new_category_path, class: "btn btn-sm btn-primary ms-2" %>
     </div>
   <% else %>
     <div class="row g-3">
-      <% @post_categories.each do |category| %>
-        <div class="col-lg-3 col-md-4 col-sm-6">
+      <% @categories.each do |category| %>
+        <div class="col-lg-2 col-md-4 col-sm-6">
           <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
-            
-            <!-- Top colored bar -->
-            <div class="bg-primary" style="height: 5px;"></div>
+            <!-- Top colored bar with gradient -->
+            <div style="height: 5px;" class="bg bg-primary"></div>
             
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title fw-bold text-dark"><%= category.name %></h5>
-              <p class="card-text text-muted mb-3"><%= category.description.presence || "No description provided." %></p>
+              <!-- Category Icon and Name -->
+              <div class="d-flex align-items-center mb-3">
+                <div class="flex-grow-1">
+                  <h5 class="card-title fw-bold text-dark mb-1">
+                    <%= truncate(category.name, length: 25) %>
+                  </h5>
+                  <small class="text-muted">
+                    <i class="fas fa-link me-1"></i><%= category.slug rescue category.name.parameterize %>
+                  </small>
+                </div>
+              </div>
               
-              <!-- Buttons -->
-              <div class="mt-auto gap-1">
-                <%= link_to "Edit", panel_edit_category_path(category.id), class: "btn btn-sm btn-outline-secondary" %>
-                <%= button_to "Delete", panel_destroy_category_path(category.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+              <!-- Description -->
+              <div class="mb-3 flex-grow-1">
+                <p class="card-text text-muted mb-0" style="line-height: 1.4;">
+                  <%= truncate(category.description.presence || "No description provided.", length: 80) %>
+                </p>
+              </div>
+              
+              <!-- Status and Posts Count -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Status Badge -->
+                <div>
+                  <% if category.status %>
+                    <span class="badge bg-success">
+                      <i class="fas fa-check-circle me-1"></i>Active
+                    </span>
+                  <% else %>
+                    <span class="badge bg-secondary">
+                      <i class="fas fa-pause-circle me-1"></i>Inactive
+                    </span>
+                  <% end %>
+                </div>
+                
+                <!-- Posts Count -->
+                <div>
+                  <small class="text-muted d-flex align-items-center">
+                    <i class="fas fa-file-alt me-1"></i>
+                    <span><%= category.posts.count rescue 0 %> posts</span>
+                  </small>
+                </div>
+              </div>
+              
+              <!-- Meta Information -->
+              <div class="small text-muted mb-3">
+                <div class="d-flex justify-content-between">
+                  <span>
+                    <i class="fas fa-calendar-plus me-1"></i>
+                    <%= category.created_at.strftime("%b %d, %Y") %>
+                  </span>
+                  <% if category.updated_at != category.created_at %>
+                    <span>
+                      <i class="fas fa-calendar-check me-1"></i>
+                      <%= category.updated_at.strftime("%b %d") %>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="mt-auto d-flex gap-2">
+                <%= link_to panel_edit_category_path(category.id), 
+                    class: "btn btn-sm btn-outline-primary flex-fill",
+                    title: "Edit Category" do %>
+                  <i class="fas fa-edit me-1"></i> Edit
+                <% end %>
+                
+                <%= button_to panel_destroy_category_path(category.id), 
+                    method: :delete, 
+                    data: { 
+                      confirm: "Are you sure you want to delete the category '#{category.name}'? This action cannot be undone." 
+                    }, 
+                    class: "btn btn-sm btn-outline-danger flex-fill",
+                    title: "Delete Category" do %>
+                  <i class="fas fa-trash me-1"></i> Delete
+                <% end %>
               </div>
             </div>
           </div>
@@ -42,5 +109,3 @@
     </div>
   <% end %>
 </div>
-
-

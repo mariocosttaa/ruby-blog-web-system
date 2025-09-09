@@ -12,30 +12,28 @@
 <div class="container my-4">
   
   <!-- Error Messages -->
-  <% if @post_category.errors.any? %>
-    <div class="alert alert-danger">
-      <ul class="mb-0">
-        <% @post_category.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "panel/_components/form_errors", errors: @category.errors.full_messages %>
 
   <div class="card shadow-sm rounded-3 border-0">
     <div class="card-body">
-      <%= form_with model: @post_category, url: panel_create_category_path, local: true do |form| %>
+      <%= form_with model: @category, url: panel_create_category_path, local: true do |form| %>
 
         <!-- Name Field -->
         <div class="mb-3">
-          <%= form.label :name, "Category Name", class: "form-label" %>
-          <%= form.text_field :name, class: "form-control", placeholder: "Enter category name" %>
+          <%= form.label :name, "Category Name *", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter category name", required: true %>
         </div>
 
         <!-- Description Field -->
         <div class="mb-3">
           <%= form.label :description, "Description", class: "form-label" %>
-          <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter description (optional)" %>
+          <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter description (optional)", required: false %>
+        </div>
+
+        <!-- Status Switch -->
+        <div class="form-check form-switch mb-3">
+          <%= form.check_box :status, class: "form-check-input", role: "switch" %>
+          <%= form.label :status, "Active?", class: "form-check-label" %>
         </div>
 
         <!-- Buttons -->

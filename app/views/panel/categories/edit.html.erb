@@ -1,6 +1,6 @@
 <!-- Header -->
 <%= render "panel/_components/header", 
-    title: "Edit Category ##{ @post_category.name }", 
+    title: "Edit Category ##{ @category.name }", 
     subtitle: "View All Categories", 
     breadcrumbs: (
       content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
@@ -10,22 +10,28 @@
     <!-- Form Container -->
 <div class="container my-4">
 
-  <%= render "panel/_components/form_errors", errors: @post_category.errors.full_messages %>
+  <%= render "panel/_components/form_errors", errors: @category.errors.full_messages %>
 
   <div class="card shadow-sm rounded-3 border-0">
     <div class="card-body">
-      <%= form_with model: @post_category, url: panel_update_category_path, local: true do |form| %>
+      <%= form_with model: @category, url: panel_update_category_path, local: true do |form| %>
 
         <!-- Name Field -->
         <div class="mb-3">
-          <%= form.label :name, "Category Name", class: "form-label" %>
-          <%= form.text_field :name, class: "form-control", placeholder: "Enter category name" %>
+          <%= form.label :name, "Category Name *", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter category name", required: true %>
         </div>
 
         <!-- Description Field -->
         <div class="mb-3">
           <%= form.label :description, "Description", class: "form-label" %>
-          <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter description (optional)" %>
+          <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Enter description (optional)", required: false %>
+        </div>
+
+        <!-- Status Switch -->
+        <div class="form-check form-switch mb-3">
+          <%= form.check_box :status, class: "form-check-input", role: "switch" %>
+          <%= form.label :status, "Active?", class: "form-check-label" %>
         </div>
 
         <!-- Buttons -->

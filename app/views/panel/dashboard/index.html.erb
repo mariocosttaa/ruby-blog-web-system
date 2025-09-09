@@ -11,7 +11,7 @@
       <div class="card shadow-sm border-0 text-center h-100">
         <div class="card-body">
           <div class="fs-2 mb-2">📝</div>
-          <h3 class="card-title fw-bold">24</h3>
+          <h3 class="card-title fw-bold"><%= @total_posts ? @total_posts : 0 %></h3>
           <p class="text-muted mb-0">Total Posts</p>
         </div>
       </div>
@@ -20,7 +20,7 @@
       <div class="card shadow-sm border-0 text-center h-100">
         <div class="card-body">
           <div class="fs-2 mb-2">📂</div>
-          <h3 class="card-title fw-bold">8</h3>
+          <h3 class="card-title fw-bold"><%= @total_categories ? @total_categories : 0 %></h3>
           <p class="text-muted mb-0">Categories</p>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div class="card shadow-sm border-0 text-center h-100">
         <div class="card-body">
           <div class="fs-2 mb-2">🏷️</div>
-          <h3 class="card-title fw-bold">15</h3>
+          <h3 class="card-title fw-bold"><%= @total_tags ? @total_tags : 0 %></h3>
           <p class="text-muted mb-0">Tags</p>
         </div>
       </div>
@@ -38,7 +38,7 @@
       <div class="card shadow-sm border-0 text-center h-100">
         <div class="card-body">
           <div class="fs-2 mb-2">💬</div>
-          <h3 class="card-title fw-bold">42</h3>
+          <h3 class="card-title fw-bold"><%= @total_comments ? @total_comments : 0 %></h3>
           <p class="text-muted mb-0">Comments</p>
         </div>
       </div>
@@ -59,8 +59,12 @@
                 <h5 class="card-title"><span class="me-2">📝</span> Posts</h5>
                 <p class="card-text text-muted flex-grow-1">Create, edit and manage all your blog posts</p>
                 <div class="d-flex gap-2">
-                  <a href="/admin/posts" class="btn btn-sm btn-primary w-50">View All</a>
-                  <a href="/admin/posts/new" class="btn btn-sm btn-outline-primary w-50">+ New</a>
+                  <%= link_to panel_posts_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
+                    View All
+                  <% end %>
+                  <%= link_to panel_new_post_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
+                    New
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -72,8 +76,12 @@
                 <h5 class="card-title"><span class="me-2">📂</span> Categories</h5>
                 <p class="card-text text-muted flex-grow-1">Organize your content with categories</p>
                 <div class="d-flex gap-2">
-                  <a href="/admin/categories" class="btn btn-sm btn-primary w-50">Manage</a>
-                  <a href="/admin/categories/new" class="btn btn-sm btn-outline-primary w-50">+ Add</a>
+                  <%= link_to panel_categories_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
+                    View All
+                  <% end %>
+                  <%= link_to panel_new_category_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
+                    New
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -85,8 +93,12 @@
                 <h5 class="card-title"><span class="me-2">🏷️</span> Tags</h5>
                 <p class="card-text text-muted flex-grow-1">Create and manage content tags</p>
                 <div class="d-flex gap-2">
-                  <a href="/admin/tags" class="btn btn-sm btn-primary w-50">Manage</a>
-                  <a href="/admin/tags/new" class="btn btn-sm btn-outline-primary w-50">+ Add</a>
+                  <%= link_to panel_tags_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
+                    View All
+                  <% end %>
+                  <%= link_to panel_new_tag_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
+                    New
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -98,8 +110,8 @@
                 <h5 class="card-title"><span class="me-2">💬</span> Comments</h5>
                 <p class="card-text text-muted flex-grow-1">Moderate and manage user comments</p>
                 <div class="d-flex gap-2">
-                  <a href="/admin/comments" class="btn btn-sm btn-primary w-50">View All</a>
-                  <a href="/admin/comments/pending" class="btn btn-sm btn-outline-primary w-50">Pending</a>
+                  <a href="#" class="btn btn-sm btn-primary w-50">View All</a>
+                  <a href="#" class="btn btn-sm btn-outline-primary w-50">Manage</a>
                 </div>
               </div>
             </div>
@@ -114,24 +126,21 @@
       <!-- Recent Activity -->
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h5 class="fw-bold mb-3">Recent Activity</h5>
+          <h5 class="fw-bold mb-3">Recent Posts</h5>
           <ul class="list-unstyled mb-0">
+            <% if @posts.empty? %>
             <li class="mb-2">
-              <small class="text-muted">2 minutes ago</small>
-              <div>New comment on "Getting Started with Rails"</div>
+              <small class="text-muted"></small>
+              <div>No posts available</div>
             </li>
-            <li class="mb-2">
-              <small class="text-muted">1 hour ago</small>
-              <div>Post "Advanced Rails Tips" published</div>
-            </li>
-            <li class="mb-2">
-              <small class="text-muted">3 hours ago</small>
-              <div>New user registration</div>
-            </li>
-            <li>
-              <small class="text-muted">5 hours ago</small>
-              <div>Category "Tutorials" created</div>
-            </li>
+            <% else %>
+              <% @posts.each do |post| %>
+              <li class="mb-2">
+                <small class="text-muted"><%= post.created_at %></small>
+                <div><%= post.title %></div>
+              </li>
+              <% end %>
+            <% end %>
           </ul>
         </div>
       </div>

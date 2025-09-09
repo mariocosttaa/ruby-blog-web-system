@@ -1,0 +1,106 @@
+<!-- Header -->
+<%= render "panel/_components/header",
+    title: "Posts",
+    subtitle: "View All Posts",
+    breadcrumbs: (
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Posts", class: "breadcrumb-item active", aria: { current: "page" })
+    ),
+    action_button: link_to("Create Post", panel_new_post_path, class: "btn btn-sm btn-primary") %>
+
+<%= render "panel/_components/alert_message" %>
+
+<div class="container my-4">
+  <% if @posts.empty? %>
+    <div class="alert alert-info text-center">
+      No posts available.
+      <%= link_to "Create one now", panel_new_post_path, class: "btn btn-sm btn-primary ms-2" %>
+    </div>
+  <% else %>
+    <div class="row g-3">
+      <% @posts.each do |post| %>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
+            <!-- Top colored bar -->
+            <div class="bg-primary" style="height: 5px;"></div>
+            
+            <!-- Post Image -->
+            <div class="card-img-top position-relative overflow-hidden" style="height: 200px;">
+              <% if post.image.attached? %>
+                <%= image_tag post.image, 
+                    alt: post.title, 
+                    class: "w-100 h-100 object-fit-cover",
+                    style: "object-fit: cover;" %>
+              <% else %>
+                <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                  <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-bold text-dark mb-2">
+                <%= truncate(post.title, length: 50) %>
+              </h5>
+              
+              <p class="card-text text-muted mb-3 flex-grow-1">
+                <%= truncate(post.description.presence || "No description provided.", length: 100) %>
+              </p>
+              
+              <!-- Post Meta Information -->
+              <div class="small text-muted mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>
+                    <i class="fas fa-calendar-alt me-1"></i>
+                    <%= post.created_at.strftime("%b %d, %Y") %>
+                  </span>
+                  <span class="badge bg-success">
+                    <%= post.status ? "Published" : "Draft" %>
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Categories and Tags -->
+              <% if post.categories.any? %>
+                <div class="mb-2">
+                  <small class="text-muted">Categories:</small><br>
+                  <% post.categories.each do |category| %>
+                    <span class="badge bg-primary me-1"><%= category.name %></span>
+                  <% end %>
+                </div>
+              <% end %>
+              
+              <% if post.tags.any? %>
+                <div class="mb-3">
+                  <small class="text-muted">Tags:</small><br>
+                  <% post.tags.each do |tag| %>
+                    <span class="badge bg-secondary me-1"><%= tag.name %></span>
+                  <% end %>
+                </div>
+              <% end %>
+              
+              <!-- Action Buttons -->
+              <div class="mt-auto d-flex gap-2">
+                <%= link_to panel_edit_post_path(post.id), 
+                    class: "btn btn-sm btn-outline-primary flex-fill",
+                    title: "Edit Post" do %>
+                  <i class="fas fa-edit me-1"></i> Edit
+                <% end %>
+                
+                <%= button_to panel_destroy_post_path(post.id), 
+                    method: :delete, 
+                    data: { 
+                      confirm: "Are you sure you want to delete '#{post.title}'?" 
+                    }, 
+                    class: "btn btn-sm btn-outline-danger flex-fill",
+                    title: "Delete Post" do %>
+                  <i class="fas fa-trash me-1"></i> Delete
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

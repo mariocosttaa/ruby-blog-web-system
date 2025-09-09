@@ -1,10 +1,11 @@
 <!-- Header -->
 <%= render "panel/_components/header", 
-    title: "Create New Post", 
-    subtitle: "Write and publish a new blog post", 
+    title: "Edit Post", 
+    subtitle: "Update your blog post", 
     breadcrumbs: (
       content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-      content_tag(:li, "Posts", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Posts", panel_posts_index_path), class: "breadcrumb-item") +
+      content_tag(:li, "Edit", class: "breadcrumb-item active", aria: { current: "page" })
     ) %>
 
 <!-- Errors -->
@@ -13,43 +14,49 @@
 <div class="container my-4">
   <div class="card shadow-sm rounded-3 border-0">
     <div class="card-body">
-      <%= form_with model: @post, url: panel_create_post_path, local: true, multipart: true do |form| %>
+      <%= form_with model: @post, url: panel_update_post_path, local: true, multipart: true do |form| %>
 
         <!-- Post Title -->
         <div class="mb-3">
-          <%= form.label :tittle, "Post Title", class: "form-label" %>
-          <%= form.text_field :title, class: "form-control", placeholder: "Enter your post title...", required: true %>
+          <%= form.label :title, "Post Title", class: "form-label" %>
+          <%= form.text_field :title, class: "form-control", placeholder: "Enter your post title...", required: true, value: @post.title %>
         </div>
 
         <!-- Featured Image -->
         <div class="mb-3">
           <%= form.label :image, "Featured Image", class: "form-label" %>
+          <% if @post.image.attached? %>
+            <div class="mb-2">
+              <img src="<%= url_for(@post.image) %>" alt="Current post image" class="img-thumbnail" style="max-width: 200px;">
+              <small class="form-text text-muted">Current image</small>
+            </div>
+          <% end %>
           <%= form.file_field :image, accept: "image/*", class: "form-control" %>
-          <small class="form-text text-muted">Supported formats: JPG, PNG, GIF (Max 5MB)</small>
+          <small class="form-text text-muted">Supported formats: JPG, PNG, GIF (Max 5MB). Upload a new image to replace the current one.</small>
         </div>
 
         <!-- Categories (Select2 with tagging) -->
         <div class="mb-3">
           <%= form.label :categories, "Categories", class: "form-label" %>
-          <%= form.select :categories, @categories.map { |c| [c.name, c.name] }, {}, { multiple: true, class: "form-select select2", data: { "select2-tagging": true } } %>
+          <%= form.select :categories, @categories.map { |c| [c.name, c.name] }, { selected: @post.categories.map(&:name) }, { multiple: true, class: "form-select select2", data: { "select2-tagging": true } } %>
         </div>
 
         <!-- Content -->
         <div class="mb-3">
           <%= form.label :description, "Content", class: "form-label" %>
-          <%= form.text_area :description, class: "form-control", rows: 8, placeholder: "Write your post here..." %>
+          <%= form.text_area :description, class: "form-control", rows: 8, placeholder: "Write your post here...", value: @post.description %>
         </div>
 
         <!-- Tags (Tagify) -->
         <div class="mb-3">
           <%= form.label :tags, "Tags", class: "form-label" %>
-          <%= form.text_field :tags, class: "form-control", placeholder: "Type tags...", data: { "tagify": true } %>
+          <%= form.text_field :tags, class: "form-control", placeholder: "Type tags...", value: @post.tags.map(&:name).join(','), data: { "tagify": true } %>
         </div>
 
         <!-- Buttons -->
         <div class="d-flex justify-content-between">
           <%= link_to "Cancel", panel_posts_index_path, class: "btn btn-secondary" %>
-          <%= form.submit "Publish Post", class: "btn btn-primary" %>
+          <%= form.submit "Update Post", class: "btn btn-primary" %>
         </div>
 
       <% end %>
@@ -84,7 +91,6 @@
     // Tagify init
     document.querySelectorAll('input[data-tagify]').forEach(input => {
       new Tagify(input, {
-        // precisa ser um array JS válido, não string Ruby to_s
         whitelist: <%= raw @tags.map { |t| "\"#{t.name}\"" }.join(",").prepend("[").concat("]") %>,
         dropdown: { enabled: 1, maxItems: 10, classname: 'tags-look', highlightFirst: true },
         originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
@@ -92,4 +98,3 @@
     });
   });
 </script>
-

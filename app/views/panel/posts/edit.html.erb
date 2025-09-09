@@ -41,10 +41,12 @@
           <%= form.select :categories, @categories.map { |c| [c.name, c.name] }, { selected: @post.categories.map(&:name) }, { multiple: true, class: "form-select select2", data: { "select2-tagging": true } } %>
         </div>
 
-        <!-- Content -->
+        <!-- Content (Quill.js Editor) -->
         <div class="mb-3">
           <%= form.label :description, "Content", class: "form-label" %>
-          <%= form.text_area :description, class: "form-control", rows: 8, placeholder: "Write your post here...", value: @post.description %>
+          <small class="text-info d-block" style="margin-top: -10px; padding-bottom: 10px;">Minimum 100 characters.</small>
+          <div id="editor" style="min-height: 200px;"></div>
+          <%= form.hidden_field :description, id: "post_description", value: @post.description %>
         </div>
 
         <!-- Tags (Tagify) -->
@@ -68,12 +70,40 @@
 <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" %>
 <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" %>
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" %>
-
 <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" %>
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.min.js" %>
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" %>
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.min.js" %>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Quill editor
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link', 'image', 'code-block'],
+          ['blockquote', 'code'],
+          [{ 'align': [] }],
+          ['clean']
+        ]
+      },
+      placeholder: 'Write your post here...',
+    });
+
+    // Populate Quill editor with existing description (if any)
+    <% if @post.description.present? %>
+      quill.root.innerHTML = <%= raw @post.description.to_json %>;
+    <% end %>
+
+    // Sync Quill content with hidden form field
+    quill.on('text-change', function() {
+      document.getElementById('post_description').value = quill.root.innerHTML;
+    });
+
     // Select2 init with tagging
     $('.select2').select2({
       placeholder: "Select or create categories",
@@ -95,6 +125,15 @@
         dropdown: { enabled: 1, maxItems: 10, classname: 'tags-look', highlightFirst: true },
         originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
       });
+    });
+
+    // Client-side validation for minimum 100 characters in description
+    document.querySelector('form').addEventListener('submit', function(event) {
+      const description = quill.getText().trim();
+      if (description.length < 100) {
+        event.preventDefault();
+        alert('Description must be at least 100 characters long.');
+      }
     });
   });
 </script>

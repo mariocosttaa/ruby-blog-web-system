@@ -16,55 +16,56 @@ class Panel::PostsController < ApplicationController
     @post = Post.new
   end
 
-  def create
-    # Extrair categorias e tags
-    category_names = post_params[:categories].to_a.map(&:strip).reject(&:blank?).uniq
-    tag_names      = post_params[:tags].to_s.split(",").map(&:strip).reject(&:blank?).uniq
+def create
+  # Extrair categorias e tags
+  category_names = post_params[:categories].to_a.map(&:strip).reject(&:blank?).uniq
+  tag_names      = post_params[:tags].to_s.split(",").map(&:strip).reject(&:blank?).uniq
 
-    # Validações manuais
-    if category_names.empty?
-      redirect_back fallback_location: panel_create_post_path, type: :danger, notice: "Categories are required." and return
-    end
-
-    if tag_names.empty?
-      redirect_back fallback_location: panel_create_post_path, type: :danger, notice: "Tags are required." and return
-    end
-
-    # Transação atômica like try cacth
-    Post.transaction do
-      @post = Post.new(post_params.except(:categories, :tags))
-      @post.user = current_user
-      @post.slug = @post.title.to_s.parameterize(separator: "-").downcase
-      @post.image.attach(post_params[:image]) if post_params[:image].present?
-      @post.save!
-
-      # Criar ou associar categories
-      categories = category_names.map do |name|
-        slug = name.downcase.gsub(" ", "-")
-        Category.find_or_create_by!(name: name, slug: slug, status: true)
-      end
-      @post.categories = categories
-
-      # Criar ou associar tags
-      tags = tag_names.map do |name|
-        Tag.find_or_create_by!(name: name, status: true)
-      end
-      @post.tags = tags
-    end
-
-    redirect_to panel_posts_index_path, type: :success, notice: "Post was successfully created."
-
-  rescue ActiveRecord::RecordInvalid => e
-    # Captura qualquer erro na transação
-    categories = Category.all.order(created_at: :desc)
-    tags = Tag.all.order(created_at: :desc)
-    @categories = hashify_ids(categories, HASHIDS_CATEGORY)
-    @tags = hashify_ids(tags, HASHIDS_TAG)
-
-    flash.now[:danger] = "There was an error creating the post: #{e.message}"
-    render :new, status: :unprocessable_entity
+  # Validações manuais
+  if category_names.empty?
+    redirect_back fallback_location: panel_create_post_path, type: :danger, notice: "Categories are required." and return
   end
 
+  if tag_names.empty?
+    redirect_back fallback_location: panel_create_post_path, type: :danger, notice: "Tags are required." and return
+  end
+
+  # Transação atômica
+  Post.transaction do
+    @post = Post.new(post_params.except(:categories, :tags))
+    @post.user = current_user
+    @post.slug = @post.title.to_s.parameterize(separator: "-").downcase
+    @post.image.attach(post_params[:image]) if post_params[:image].present?
+    @post.save!
+
+    # Criar ou associar categories
+    categories = category_names.map do |name|
+      slug = name.downcase.gsub(" ", "-")
+      Category.find_or_create_by!(name: name, slug: slug, status: true)
+    end
+    @post.categories = categories
+
+    # Criar ou associar tags
+    tags = tag_names.map do |name|
+      Tag.find_or_create_by!(name: name, status: true)
+    end
+    @post.tags = tags
+  end
+
+  redirect_to panel_posts_index_path, type: :success, notice: "Post was successfully created."
+
+rescue ActiveRecord::RecordInvalid => e
+  # Captura qualquer erro na transação
+  categories = Category.all.order(created_at: :desc)
+  tags = Tag.all.order(created_at: :desc)
+  @categories = hashify_ids(categories, HASHIDS_CATEGORY)
+  @tags = hashify_ids(tags, HASHIDS_TAG)
+  @submitted_categories = category_names # Store submitted categories
+  @submitted_tags = tag_names # Store submitted tags
+
+  flash.now[:danger] = "There was an error creating the post: #{e.message}"
+  render :new, status: :unprocessable_entity
+end
 
 
   def edit

@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,8 +54,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   end
 
   create_table "post_categories", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.integer "category_id", null: false
+    t.bigint "post_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_post_categories_on_category_id"
@@ -61,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   end
 
   create_table "post_comments", force: :cascade do |t|
-    t.integer "post_id", null: false
+    t.bigint "post_id", null: false
     t.string "name", null: false
     t.string "email", null: false
     t.string "comment", null: false
@@ -72,8 +75,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   end
 
   create_table "post_tags", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.integer "tag_id", null: false
+    t.bigint "post_id", null: false
+    t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id", "tag_id"], name: "index_post_tags_on_post_id_and_tag_id", unique: true
@@ -82,7 +85,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "title", null: false
     t.string "slug", null: false
     t.text "description", null: false

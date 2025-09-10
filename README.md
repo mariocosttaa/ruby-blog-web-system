@@ -10,6 +10,60 @@
 
 A modern, feature-rich blog management system built with Ruby on Rails 8, featuring a beautiful admin panel, public-facing blog, and comprehensive content management capabilities.
 
+## 🛠️ What We're Using
+
+### **Backend Technologies**
+- **Ruby 3.2+** - Modern Ruby programming language
+- **Rails 8.0.2** - Latest Ruby on Rails framework
+- **PostgreSQL 13+** - Robust relational database
+- **Docker & Docker Compose** - Containerization and orchestration
+- **Devise** - Complete authentication solution
+- **Hashids** - Secure, non-sequential ID generation
+- **Active Storage** - File uploads and media management
+
+### **Frontend Technologies**
+- **TailwindCSS 3.0+** - Utility-first CSS framework
+- **Stimulus** - Modest JavaScript framework
+- **Turbo** - SPA-like page acceleration
+- **Importmap** - JavaScript module management
+- **ERB** - Embedded Ruby templating
+
+### **Development & Testing**
+- **Rails Testing Framework** - Comprehensive test suite
+- **Docker Development Environment** - Consistent development setup
+- **RuboCop** - Code linting and formatting
+- **Brakeman** - Security vulnerability scanner
+- **Rails Console** - Interactive development environment
+
+### **Key Features Implemented**
+- **🔐 Authentication System** - User registration, login, and session management
+- **📝 Content Management** - Full CRUD for posts, categories, and tags
+- **🔗 Model Relations** - Many-to-many relationships with proper associations
+- **🌐 Friendly URLs** - SEO-friendly slugs and clean URLs
+- **🎨 Modern UI** - Responsive design with dark/light theme support
+- **💬 Comment System** - Public commenting with moderation capabilities
+- **🔍 Search Functionality** - Full-text search across content
+- **📱 Mobile-First** - Fully responsive design
+- **🧪 Comprehensive Testing** - Unit tests, controller tests, and integration tests
+- **🐳 Containerized** - Docker setup for development and production
+- **📊 Admin Panel** - Secure admin interface for content management
+
+### **Database Architecture**
+- **Normalized Schema** - Proper foreign key relationships
+- **Junction Tables** - Many-to-many relationships for posts-categories and posts-tags
+- **Active Record Migrations** - Version-controlled database schema
+- **Data Integrity** - Foreign key constraints and validations
+- **Indexing Strategy** - Optimized indexes for performance
+
+### **Security Features**
+- **CSRF Protection** - Built-in Rails CSRF tokens
+- **Parameter Sanitization** - Strong parameters for all forms
+- **SQL Injection Prevention** - ActiveRecord ORM protection
+- **XSS Protection** - ERB auto-escaping
+- **Secure Headers** - Content Security Policy
+- **Password Security** - Bcrypt encryption
+- **HashID Security** - Non-sequential IDs to prevent enumeration
+
 ## 📋 Table of Contents
 
 - [🚀 Quick Start](#-quick-start)

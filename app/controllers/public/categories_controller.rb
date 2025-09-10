@@ -2,18 +2,19 @@ class Public::CategoriesController < ApplicationController
   include HashidHelper
   layout "layouts/public/public_layout"
   def index
-    categories = Category.all.order("id DESC")
+    categories = Category.where(status: true).order("id DESC")
     @categories = hashify_ids(categories, HASHIDS_CATEGORY)
   end
 
   def show
     slug = params[:slug]
-    category = Category.find_by(slug: slug)
+    category = Category.where(status: true).find_by(slug: slug)
     if category.present?
       posts = Post.joins(:categories)
             .where(
-              "LOWER(categories.name) LIKE :q",
-              q: "%#{slug.downcase}%"
+              "LOWER(categories.name) LIKE :q AND posts.status = :status",
+              q: "%#{slug.downcase}%",
+              status: true
             ).distinct
             .order(created_at: :desc)
 

@@ -7,8 +7,9 @@ class Public::SearchController < ApplicationController
     if query.present?
       posts = Post.joins(:categories, :tags)
                   .where(
-                    "LOWER(posts.title) LIKE :q OR LOWER(posts.description) LIKE :q OR LOWER(categories.name) LIKE :q OR LOWER(tags.name) LIKE :q",
-                    q: "%#{query.downcase}%"
+                    "(LOWER(posts.title) LIKE :q OR LOWER(posts.description) LIKE :q OR LOWER(categories.name) LIKE :q OR LOWER(tags.name) LIKE :q) AND posts.status = :status",
+                    q: "%#{query.downcase}%",
+                    status: true
                   ).distinct
                   .order(created_at: :desc)
 

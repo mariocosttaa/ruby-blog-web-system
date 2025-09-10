@@ -3,19 +3,20 @@ class Public::TagsController < ApplicationController
   layout "layouts/public/public_layout"
 
   def index
-    tags = Tag.all.order("id DESC")
+    tags = Tag.where(status: true).order("id DESC")
     @tags = hashify_ids(tags, HASHIDS_TAG)
   end
 
   def show
     slug = params[:slug]
-    tag = Tag.where("LOWER(name) LIKE ?", "#{slug.downcase}")
+    tag = Tag.where(status: true).where("LOWER(name) LIKE ?", "#{slug.downcase}")
     if tag.present?
       tag = tag.first
       posts = Post.joins(:tags)
             .where(
-              "LOWER(tags.name) LIKE :q",
-              q: "%#{slug.downcase}%"
+              "LOWER(tags.name) LIKE :q AND posts.status = :status",
+              q: "%#{slug.downcase}%",
+              status: true
             ).distinct
             .order(created_at: :desc)
 

@@ -4,7 +4,7 @@ class Public::ArticlesController < ApplicationController
   before_action :set_post, only: [ :create_comment, :show ]
 
   def index
-    posts = Post.all.order(created_at: :desc)
+    posts = Post.where(status: true).order(created_at: :desc)
     @posts = hashify_ids(posts, HASHIDS_POST)
   end
 
@@ -30,7 +30,7 @@ class Public::ArticlesController < ApplicationController
   private
   def set_post
       slug = params[:slug]
-      post = Post.find_by(slug: slug)
+      post = Post.where(status: true).find_by(slug: slug)
       if post.present?
         @post = hashify_ids(post, HASHIDS_POST)
       else

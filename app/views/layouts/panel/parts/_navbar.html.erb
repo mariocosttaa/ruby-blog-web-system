@@ -21,8 +21,8 @@
             class: "px-2 py-1 rounded text-xs font-medium transition-colors duration-200 #{nav_active_class('panel/categories') ? 'bg-purple-700 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
         <%= link_to 'Tags', panel_tags_index_path, 
             class: "px-2 py-1 rounded text-xs font-medium transition-colors duration-200 #{nav_active_class('panel/tags') ? 'bg-purple-700 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
-        <%= link_to 'Comments', '#', 
-            class: "px-2 py-1 rounded text-xs font-medium text-purple-100 hover:bg-purple-500 hover:text-white transition-colors duration-200" %>
+        <%= link_to 'Comments', panel_comments_index_path, 
+            class: "px-2 py-1 rounded text-xs font-medium transition-colors duration-200 #{nav_active_class('panel/comments') ? 'bg-purple-700 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
       </div>
 
       <!-- Right side actions -->
@@ -83,8 +83,8 @@
             class: "block px-3 py-2 rounded-md text-base font-medium #{nav_active_class('panel/categories') ? 'bg-purple-600 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
         <%= link_to 'Tags', panel_tags_index_path, 
             class: "block px-3 py-2 rounded-md text-base font-medium #{nav_active_class('panel/tags') ? 'bg-purple-600 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
-        <%= link_to 'Comments', '#', 
-            class: "block px-3 py-2 rounded-md text-base font-medium text-purple-100 hover:bg-purple-500 hover:text-white" %>
+        <%= link_to 'Comments', panel_comments_index_path, 
+            class: "block px-3 py-2 rounded-md text-base font-medium #{nav_active_class('panel/comments') ? 'bg-purple-600 text-white' : 'text-purple-100 hover:bg-purple-500 hover:text-white'}" %>
         <%= link_to 'View Site', public_home_index_path, 
             class: "block px-3 py-2 rounded-md text-base font-medium text-purple-100 hover:bg-purple-500 hover:text-white", 
             target: "_blank" %>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7c3aed;">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="/admin">
+    <a class="navbar-brand d-flex align-items-center" href="<%= panel_dashboard_index_path %>">
       <span class="navbar-title fw-bold text-white">Blog Admin</span>
     </a>
 
@@ -12,22 +12,22 @@
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <%= link_to 'Dashboard', panel_dashboard_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/dashboard'}" %>
+          <%= link_to 'Dashboard', panel_dashboard_index_path, class: "nav-link #{nav_active_class('panel/dashboard') || ''}" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Tags', panel_tags_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/tags'}" %>
+          <%= link_to 'Tags', panel_tags_index_path, class: "nav-link #{nav_active_class('panel/tags') || ''}" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Posts', panel_posts_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/posts'}" %>
+          <%= link_to 'Posts', panel_posts_index_path, class: "nav-link #{nav_active_class('panel/posts') || ''}" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Categories', panel_categories_index_path, class: "nav-link #{'active' if params[:controller] == 'panel/categories'}" %>
+          <%= link_to 'Categories', panel_categories_index_path, class: "nav-link #{nav_active_class('panel/categories') || ''}" %>
         </li>
         <li class="nav-item">
           <%= link_to 'Comments', '#', class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'View Site', '#', class: 'nav-link' %>
+          <%= link_to 'View Site', public_home_index_path, class: 'nav-link' %>
         </li>
       </ul>
 

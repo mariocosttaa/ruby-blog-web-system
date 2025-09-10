@@ -1,0 +1,99 @@
+<!-- Delete Confirmation Dialog -->
+<div id="delete-dialog" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-card border border-theme rounded-lg shadow-xl max-w-md w-full animate-on-scroll" style="background-color: var(--card-bg);">
+      <!-- Dialog Header -->
+      <div class="flex items-center justify-between p-6 border-b border-theme">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3" style="background-color: #fef2f2;">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold" style="color: var(--text-color);">Confirm Deletion</h3>
+            <p class="text-sm text-secondary">This action cannot be undone.</p>
+          </div>
+        </div>
+        <button id="close-dialog" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Dialog Body -->
+      <div class="p-6">
+        <p class="text-sm text-secondary mb-4">
+          Are you sure you want to delete <span id="item-name" class="font-medium" style="color: var(--text-color);"></span>?
+        </p>
+        <p class="text-xs text-secondary">
+          This will permanently remove the item and all associated data.
+        </p>
+      </div>
+
+      <!-- Dialog Footer -->
+      <div class="flex justify-end gap-3 p-6 border-t border-theme">
+        <button id="cancel-delete" class="px-4 py-2 text-sm font-medium text-secondary border border-theme rounded-lg hover:bg-gray-50 transition-colors duration-200" style="background-color: var(--card-bg);">
+          Cancel
+        </button>
+        <button id="confirm-delete" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Delete confirmation dialog functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const deleteDialog = document.getElementById('delete-dialog');
+    const closeDialog = document.getElementById('close-dialog');
+    const cancelDelete = document.getElementById('cancel-delete');
+    const confirmDelete = document.getElementById('confirm-delete');
+    const itemName = document.getElementById('item-name');
+    
+    let deleteForm = null;
+
+    // Function to show delete dialog
+    window.showDeleteDialog = function(form, itemTitle) {
+      deleteForm = form;
+      itemName.textContent = itemTitle;
+      deleteDialog.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    };
+
+    // Function to hide delete dialog
+    function hideDeleteDialog() {
+      deleteDialog.classList.add('hidden');
+      document.body.style.overflow = 'auto'; // Restore scrolling
+      deleteForm = null;
+    }
+
+    // Event listeners
+    closeDialog.addEventListener('click', hideDeleteDialog);
+    cancelDelete.addEventListener('click', hideDeleteDialog);
+    
+    confirmDelete.addEventListener('click', function() {
+      if (deleteForm) {
+        deleteForm.submit();
+      }
+      hideDeleteDialog();
+    });
+
+    // Close dialog when clicking outside
+    deleteDialog.addEventListener('click', function(e) {
+      if (e.target === deleteDialog) {
+        hideDeleteDialog();
+      }
+    });
+
+    // Close dialog with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !deleteDialog.classList.contains('hidden')) {
+        hideDeleteDialog();
+      }
+    });
+  });
+</script>

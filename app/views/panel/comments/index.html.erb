@@ -1,0 +1,108 @@
+<!-- Header -->
+<%= render "panel/_components/header",
+    title: "Comments",
+    subtitle: "View All Comments",
+    breadcrumbs: (
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, "Comments", class: "flex items-center text-secondary", aria: { current: "page" })
+    ) %>
+
+<%= render "panel/_components/alert_message" %>
+<%= render "panel/_components/delete_confirmation_dialog" %>
+
+<div class="max-w-7xl mx-auto">
+  <% if @comments.empty? %>
+    <div class="bg-card border border-theme rounded-lg p-8 text-center animate-on-scroll">
+      <div class="text-purple text-6xl mb-4">💬</div>
+      <h3 class="text-xl font-semibold style="color: var(--text-color);" mb-2">No comments available</h3>
+      <p class="text-secondary mb-4">Comments will appear here when users comment on your posts.</p>
+    </div>
+  <% else %>
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 animate-on-scroll">
+      <% @comments.each do |comment| %>
+        <div class="bg-card rounded-lg shadow-sm border border-theme overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <!-- Top colored bar with gradient -->
+          <div class="h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+          
+          <div class="p-6 flex flex-col h-full">
+            <!-- Comment Icon and Content -->
+            <div class="flex items-start mb-4">
+              <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center mr-3 flex-shrink-0" style="background-color: var(--card-bg);">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+              </div>
+              <div class="flex-grow min-w-0">
+                <h5 class="text-base font-bold style="color: var(--text-color);" mb-2 line-clamp-3">
+                  <%= truncate(comment.comment, length: 100) %>
+                </h5>
+                <div class="text-xs text-secondary">
+                  <%= comment_author_info(comment) %>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Status Badge -->
+            <div class="mb-4">
+              <%= comment_status_badge(comment) %>
+            </div>
+            
+            <!-- Post Information -->
+            <div class="mb-4">
+              <div class="text-xs text-secondary flex items-center">
+                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>Post: <%= truncate(comment.post.title, length: 30) rescue "Unknown Post" %></span>
+              </div>
+            </div>
+            
+            <!-- Email Information -->
+            <div class="mb-4">
+              <%= comment_email_info(comment) %>
+            </div>
+            
+            <!-- Meta Information -->
+            <div class="text-xs text-secondary mb-3 flex-grow">
+              <div class="mb-1 flex items-center">
+                <svg class="w-2 h-2 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Sent: <%= comment.created_at.strftime("%b %d, %Y") %>
+              </div>
+              <% if comment.updated_at != comment.created_at %>
+                <div class="flex items-center">
+                  <svg class="w-2 h-2 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  Updated: <%= comment.updated_at.strftime("%b %d, %Y") %>
+                </div>
+              <% end %>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="mt-auto flex gap-1">
+              <%= form_with model: comment, url: panel_update_comment_path(comment.id), method: :patch, local: true, class: "flex-1" do |form| %>
+                <%= form.hidden_field :status, value: !comment.status %>
+                <%= form.submit comment.status ? "Unshow" : "Show", 
+                    class: "w-full #{comment.status ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                    title: comment.status ? "Hide Comment from Website" : "Show Comment on Website" %>
+              <% end %>
+              
+              <%= button_to panel_destroy_comment_path(comment.id), 
+                  method: :delete, 
+                  class: "flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                  title: "Delete Comment",
+                  onclick: "event.preventDefault(); showDeleteDialog(this.form, 'Comment by #{comment.name}'); return false;" do %>
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                Delete
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

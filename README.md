@@ -85,73 +85,71 @@ A modern, feature-rich blog management system built with Ruby on Rails 8, featur
 ## 🚀 Quick Start
 
 ### Prerequisites
+- Ruby 3.2+ installed
+- Rails 8.0.2+ installed
 - Docker and Docker Compose installed
 - Git
 
-### 1. Clone and Setup
+### 1. Clone the Repository
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/ruby-blog-web-system.git
+git clone https://github.com/mariocosttaa/ruby-blog-web-system.git
+```
+
+```bash
 cd ruby-blog-web-system
-
-# Build the Docker containers
-docker-compose build
-
-# Start the services (PostgreSQL + Rails)
-docker-compose up -d
 ```
 
-### 2. Database Setup
+### 2. Start Database Services (PostgreSQL + Redis)
 ```bash
-# Run database migrations
-docker-compose exec web rails db:migrate
-
-# Seed with sample data
-docker-compose exec web rails db:seed
+docker-compose up -d postgres redis
 ```
 
-### 3. Build Assets
+### 3. Install Dependencies
 ```bash
-# Build TailwindCSS and other assets
-docker-compose exec web rails assets:precompile
+bundle install
 ```
 
-### 4. Access the Application
+### 4. Setup Database
+```bash
+rails db:create
+```
+
+```bash
+rails db:migrate
+```
+
+```bash
+rails db:seed
+```
+
+### 5. Start the Application
+```bash
+rails server
+```
+
+### 6. Access the Application
 - **Public Blog**: http://localhost:3000
 - **Admin Panel**: http://localhost:3000/panel/dashboard
 
-### 5. Default Admin Account
+### 7. Default Admin Account
 After running `rails db:seed`, you can log in with:
 - **Email**: `admin@example.com`
 - **Password**: `12345678`
 
-### 6. Development Mode
+### 8. Development Mode (Optional)
 For development with live reloading:
 ```bash
-# Use the development compose file
-docker-compose -f docker-compose.dev.yml up
-
-# Or run individual services
-docker-compose up postgres
 bin/dev
 ```
 
-### 7. Run Tests
+### 9. Run Tests
 ```bash
-# Run the complete test suite
-docker-compose exec web rails test
-
-# Run specific test files
-docker-compose exec web rails test test/controllers/panel/posts_controller_test.rb
+rails test
 ```
 
-### 8. Stop the Application
+### 10. Stop Services
 ```bash
-# Stop all services
 docker-compose down
-
-# Stop and remove volumes (clean slate)
-docker-compose down -v
 ```
 
 ## ✨ Features
@@ -239,47 +237,46 @@ app/
 ## 📦 Installation
 
 ### Prerequisites
-- Docker 20+ and Docker Compose
+- Ruby 3.2+ installed
+- Rails 8.0.2+ installed
+- Docker and Docker Compose installed
 - Git
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/yourusername/ruby-blog-web-system.git
+git clone https://github.com/mariocosttaa/ruby-blog-web-system.git
+```
+
+```bash
 cd ruby-blog-web-system
 ```
 
-### Docker Setup
+### Start Database Services
 ```bash
-# Build the containers
-docker-compose build
-
-# Start the services
-docker-compose up -d
-
-# Run database setup
-docker-compose exec web rails db:migrate
-docker-compose exec web rails db:seed
-
-# Build assets
-docker-compose exec web rails assets:precompile
+docker-compose up -d postgres redis
 ```
 
-### Development Setup (Alternative)
-If you prefer local development without Docker:
+### Install Dependencies
+```bash
+bundle install
+```
+
+### Setup Database
+```bash
+rails db:create
+```
 
 ```bash
-# Install Ruby 3.2+ and PostgreSQL
-# Install dependencies
-bundle install
-bin/importmap install
-
-# Setup database
-rails db:create
 rails db:migrate
-rails db:seed
+```
 
-# Start development server
-bin/dev
+```bash
+rails db:seed
+```
+
+### Start the Application
+```bash
+rails server
 ```
 
 Visit `http://localhost:3000` to see the application.
@@ -742,61 +739,57 @@ For questions or support, please open an issue on GitHub or contact the maintain
 
 ## 🚀 Quick Commands
 
-### Docker Commands
+### Database Services (Docker)
 ```bash
-# Start all services
-docker-compose up -d
+docker-compose up -d postgres redis
+```
 
-# Build containers
-docker-compose build
-
-# Run Rails commands
-docker-compose exec web rails [command]
-
-# Run tests
-docker-compose exec web rails test
-
-# Database operations
-docker-compose exec web rails db:migrate
-docker-compose exec web rails db:seed
-
-# Console access
-docker-compose exec web rails console
-
-# Stop services
+```bash
 docker-compose down
 ```
 
-### Local Development Commands
+### Rails Application Commands
 ```bash
-# Start development server
+rails server
+```
+
+```bash
 bin/dev
+```
 
-# Run tests
+```bash
 rails test
+```
 
-# Create migration
-rails generate migration CreateTableName
-
-# Run migrations
+```bash
 rails db:migrate
+```
 
-# Seed database
+```bash
 rails db:seed
+```
 
-# Console access
+```bash
 rails console
+```
 
-# Generate controller
+```bash
+rails generate migration CreateTableName
+```
+
+```bash
 rails generate controller ControllerName
+```
 
-# Generate model
+```bash
 rails generate model ModelName
+```
 
-# Check routes
+```bash
 rails routes
+```
 
-# Database console
+```bash
 rails dbconsole
 ```
 

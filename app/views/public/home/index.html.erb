@@ -1,7 +1,7 @@
 <!-- Main Content -->
-<main class="pt-16">
+<main class="">
     <!-- Hero Section -->
-    <section class="py-20 px-4 animate-on-scroll">
+    <section class="animate-on-scroll">
         <div class="max-w-6xl mx-auto text-center">
             <h2 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in text-purple font-title">
                 MarioTechPortal
@@ -10,8 +10,7 @@
                 Your daily source for the latest news and trends in technology.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
-                <%= link_to "View Articles", "#", class: "px-8 py-3 bg-purple hover:bg-purple/90 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple/25" %>
-                <%= link_to "Explore", "#", class: "px-8 py-3 border border-theme hover:bg-purple/20 rounded-full font-semibold transition-all duration-300" %>
+                <%= link_to "View Articles", public_articles_index_path, class: "px-8 py-3 border border-theme hover:bg-purple/20 rounded-full font-semibold transition-all duration-300" %>
             </div>
         </div>
     </section>

@@ -1,118 +1,115 @@
-<main class="container my-4">
-  <!-- Page Header -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold text-dark">Dashboard</h1>
-    <p class="text-muted">Overview of your blog's performance and quick access to management tools</p>
-  </div>
+<!-- Header -->
+<%= render "panel/_components/header",
+    title: "Dashboard",
+    subtitle: "Overview of your blog's performance and quick access to management tools" %>
+
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto">
 
   <!-- Stats Grid -->
-  <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
-    <div class="col">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body">
-          <div class="fs-2 mb-2">📝</div>
-          <h3 class="card-title fw-bold"><%= @total_posts ? @total_posts : 0 %></h3>
-          <p class="text-muted mb-0">Total Posts</p>
-        </div>
-      </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 animate-on-scroll">
+    <!-- Posts Stat -->
+    <div class="bg-card rounded-lg shadow-sm border border-theme p-4 text-center hover:shadow-md transition-shadow duration-200">
+      <div class="text-2xl mb-2">📝</div>
+      <h3 class="text-xl font-bold mb-1" style="color: var(--text-color);"><%= @total_posts ? @total_posts : 0 %></h3>
+      <p class="text-xs text-secondary">Total Posts</p>
     </div>
-    <div class="col">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body">
-          <div class="fs-2 mb-2">📂</div>
-          <h3 class="card-title fw-bold"><%= @total_categories ? @total_categories : 0 %></h3>
-          <p class="text-muted mb-0">Categories</p>
-        </div>
-      </div>
+
+    <!-- Categories Stat -->
+    <div class="bg-card rounded-lg shadow-sm border border-theme p-4 text-center hover:shadow-md transition-shadow duration-200">
+      <div class="text-2xl mb-2">📂</div>
+      <h3 class="text-xl font-bold mb-1" style="color: var(--text-color);"><%= @total_categories ? @total_categories : 0 %></h3>
+      <p class="text-xs text-secondary">Categories</p>
     </div>
-    <div class="col">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body">
-          <div class="fs-2 mb-2">🏷️</div>
-          <h3 class="card-title fw-bold"><%= @total_tags ? @total_tags : 0 %></h3>
-          <p class="text-muted mb-0">Tags</p>
-        </div>
-      </div>
+
+    <!-- Tags Stat -->
+    <div class="bg-card rounded-lg shadow-sm border border-theme p-4 text-center hover:shadow-md transition-shadow duration-200">
+      <div class="text-2xl mb-2">🏷️</div>
+      <h3 class="text-xl font-bold mb-1" style="color: var(--text-color);"><%= @total_tags ? @total_tags : 0 %></h3>
+      <p class="text-xs text-secondary">Tags</p>
     </div>
-    <div class="col">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body">
-          <div class="fs-2 mb-2">💬</div>
-          <h3 class="card-title fw-bold"><%= @total_comments ? @total_comments : 0 %></h3>
-          <p class="text-muted mb-0">Comments</p>
-        </div>
-      </div>
+
+    <!-- Comments Stat -->
+    <div class="bg-card rounded-lg shadow-sm border border-theme p-4 text-center hover:shadow-md transition-shadow duration-200">
+      <div class="text-2xl mb-2">💬</div>
+      <h3 class="text-xl font-bold mb-1" style="color: var(--text-color);"><%= @total_comments ? @total_comments : 0 %></h3>
+      <p class="text-xs text-secondary">Comments</p>
     </div>
   </div>
 
   <!-- Main Content Grid -->
-  <div class="row g-4">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Management Section -->
-    <div class="col-lg-8">
-      <div class="card shadow-sm border-0 p-3">
-        <h2 class="fw-bold mb-4"><span class="me-2">⚡</span> Content Management</h2>
-        <div class="row row-cols-1 row-cols-md-2 g-3">
+    <div class="lg:col-span-2">
+      <div class="bg-card rounded-lg shadow-sm border border-theme p-4 animate-on-scroll">
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-color);">
+          <span class="text-lg mr-2">⚡</span> Content Management
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <!-- Posts -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><span class="me-2">📝</span> Posts</h5>
-                <p class="card-text text-muted flex-grow-1">Create, edit and manage all your blog posts</p>
-                <div class="d-flex gap-2">
-                  <%= link_to panel_posts_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
-                    View All
-                  <% end %>
-                  <%= link_to panel_new_post_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
-                    New
-                  <% end %>
-                </div>
+          <div class="rounded-lg p-3 hover:shadow-md transition-shadow duration-200" style="background-color: var(--card-bg); opacity: 0.8;">
+            <div class="flex flex-col h-full">
+              <h5 class="text-sm font-semibold mb-1 flex items-center" style="color: var(--text-color);">
+                <span class="text-sm mr-1">📝</span> Posts
+              </h5>
+              <p class="text-xs text-secondary flex-grow mb-3">Create, edit and manage all your blog posts</p>
+              <div class="flex gap-1">
+                <%= link_to panel_posts_index_path, title: 'View All', class: "flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  View All
+                <% end %>
+                <%= link_to panel_new_post_path, title: 'New Post', class: "flex-1 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  New
+                <% end %>
               </div>
             </div>
           </div>
+
           <!-- Categories -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><span class="me-2">📂</span> Categories</h5>
-                <p class="card-text text-muted flex-grow-1">Organize your content with categories</p>
-                <div class="d-flex gap-2">
-                  <%= link_to panel_categories_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
-                    View All
-                  <% end %>
-                  <%= link_to panel_new_category_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
-                    New
-                  <% end %>
-                </div>
+          <div class="rounded-lg p-3 hover:shadow-md transition-shadow duration-200" style="background-color: var(--card-bg); opacity: 0.8;">
+            <div class="flex flex-col h-full">
+              <h5 class="text-sm font-semibold mb-1 flex items-center" style="color: var(--text-color);">
+                <span class="text-sm mr-1">📂</span> Categories
+              </h5>
+              <p class="text-xs text-secondary flex-grow mb-3">Organize your content with categories</p>
+              <div class="flex gap-1">
+                <%= link_to panel_categories_index_path, title: 'View All', class: "flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  View All
+                <% end %>
+                <%= link_to panel_new_category_path, title: 'New Category', class: "flex-1 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  New
+                <% end %>
               </div>
             </div>
           </div>
+
           <!-- Tags -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><span class="me-2">🏷️</span> Tags</h5>
-                <p class="card-text text-muted flex-grow-1">Create and manage content tags</p>
-                <div class="d-flex gap-2">
-                  <%= link_to panel_tags_index_path, title: 'View All', class: "btn btn-sm btn-primary w-50" do %>
-                    View All
-                  <% end %>
-                  <%= link_to panel_new_tag_path, title: 'New Post', class: "btn btn-sm btn-outline-primary w-50" do %>
-                    New
-                  <% end %>
-                </div>
+          <div class="rounded-lg p-3 hover:shadow-md transition-shadow duration-200" style="background-color: var(--card-bg); opacity: 0.8;">
+            <div class="flex flex-col h-full">
+              <h5 class="text-sm font-semibold mb-1 flex items-center" style="color: var(--text-color);">
+                <span class="text-sm mr-1">🏷️</span> Tags
+              </h5>
+              <p class="text-xs text-secondary flex-grow mb-3">Create and manage content tags</p>
+              <div class="flex gap-1">
+                <%= link_to panel_tags_index_path, title: 'View All', class: "flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  View All
+                <% end %>
+                <%= link_to panel_new_tag_path, title: 'New Tag', class: "flex-1 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200" do %>
+                  New
+                <% end %>
               </div>
             </div>
           </div>
+
           <!-- Comments -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><span class="me-2">💬</span> Comments</h5>
-                <p class="card-text text-muted flex-grow-1">Moderate and manage user comments</p>
-                <div class="d-flex gap-2">
-                  <a href="#" class="btn btn-sm btn-primary w-50">View All</a>
-                  <a href="#" class="btn btn-sm btn-outline-primary w-50">Manage</a>
-                </div>
+          <div class="rounded-lg p-3 hover:shadow-md transition-shadow duration-200" style="background-color: var(--card-bg); opacity: 0.8;">
+            <div class="flex flex-col h-full">
+              <h5 class="text-sm font-semibold mb-1 flex items-center" style="color: var(--text-color);">
+                <span class="text-sm mr-1">💬</span> Comments
+              </h5>
+              <p class="text-xs text-secondary flex-grow mb-3">Moderate and manage user comments</p>
+              <div class="flex gap-1">
+                <a href="#" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200">View All</a>
+                <a href="#" class="flex-1 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200">Manage</a>
               </div>
             </div>
           </div>
@@ -121,27 +118,27 @@
     </div>
 
     <!-- Sidebar -->
-    <div class="col-lg-4">
-
+    <div class="lg:col-span-1">
       <!-- Recent Activity -->
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h5 class="fw-bold mb-3">Recent Posts</h5>
-          <ul class="list-unstyled mb-0">
-            <% if @posts.empty? %>
-            <li class="mb-2">
-              <small class="text-muted"></small>
-              <div>No posts available</div>
-            </li>
-            <% else %>
-              <% @posts.each do |post| %>
-              <li class="mb-2">
-                <small class="text-muted"><%= post.created_at %></small>
-                <div><%= post.title %></div>
-              </li>
-              <% end %>
+      <div class="bg-card rounded-lg shadow-sm border border-theme p-4 animate-on-scroll">
+        <h5 class="text-sm font-bold mb-3" style="color: var(--text-color);">Recent Posts</h5>
+        <div class="space-y-2">
+          <% if @posts.empty? %>
+            <div class="text-center py-3">
+              <div class="text-xs text-secondary">No posts available</div>
+            </div>
+          <% else %>
+            <% @posts.each do |post| %>
+              <div class="border-l-4 border-purple-500 pl-3 py-1.5">
+                <div class="text-xs text-secondary mb-1">
+                  <%= post.created_at.strftime("%b %d, %Y") %>
+                </div>
+                <div class="font-medium text-xs line-clamp-2" style="color: var(--text-color);">
+                  <%= truncate(post.title, length: 40) %>
+                </div>
+              </div>
             <% end %>
-          </ul>
+          <% end %>
         </div>
       </div>
     </div>

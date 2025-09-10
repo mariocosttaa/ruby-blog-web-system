@@ -1,11 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+post_tag_1:
+  post: published_post
+  tag: active_tag
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+post_tag_2:
+  post: published_post
+  tag: another_active_tag
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+post_tag_3:
+  post: another_published_post
+  tag: web_tag
+  created_at: <%= 3.days.ago %>
+  updated_at: <%= 3.days.ago %>

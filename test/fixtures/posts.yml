@@ -1,11 +1,28 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+published_post:
+  title: "Test Published Post"
+  description: "This is a test published post with a description that is long enough to meet the minimum requirement of 100 characters for validation purposes."
+  status: true
+  slug: "test-published-post"
+  user: admin
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+draft_post:
+  title: "Test Draft Post"
+  description: "This is a test draft post with a description that is long enough to meet the minimum requirement of 100 characters for validation purposes."
+  status: false
+  slug: "test-draft-post"
+  user: author
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
+
+another_published_post:
+  title: "Another Published Post"
+  description: "This is another test published post with a description that is long enough to meet the minimum requirement of 100 characters for validation purposes."
+  status: true
+  slug: "another-published-post"
+  user: author
+  created_at: <%= 3.days.ago %>
+  updated_at: <%= 3.days.ago %>

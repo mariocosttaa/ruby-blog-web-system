@@ -1,11 +1,28 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+approved_comment:
+  name: "John Doe"
+  email: "john@example.com"
+  comment: "This is a great post! Very informative and well written."
+  status: "approved"
+  post: published_post
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>
+
+pending_comment:
+  name: "Jane Smith"
+  email: "jane@example.com"
+  comment: "I have a question about this topic. Can you provide more details?"
+  status: "pending"
+  post: published_post
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= 2.hours.ago %>
+
+rejected_comment:
+  name: "Spam User"
+  email: "spam@example.com"
+  comment: "This is spam content that should be rejected."
+  status: "rejected"
+  post: another_published_post
+  created_at: <%= 3.hours.ago %>
+  updated_at: <%= 1.hour.ago %>

@@ -1,267 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - My Blog</title>
-    <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-      }
+<% content_for :title, "Sign Up - MarioTechPortal" %>
 
-      body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background: linear-gradient(135deg, #181a25ff 0%, #764ba2 100%);
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-      }
+<div class="w-full max-w-md px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-card rounded-lg shadow-lg border border-theme p-8 animate-on-scroll relative overflow-hidden">
+            <!-- Top colored bar with gradient -->
+            <div class="h-1 bg-gradient-to-r from-purple-500 to-purple-600 absolute top-0 left-0 right-0"></div>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <span class="text-white text-2xl font-bold font-title">B</span>
+                </div>
+                <h2 class="text-3xl font-bold font-title mb-2" style="color: var(--text-color);">Create Account</h2>
+                <p class="text-secondary">Join our blog community</p>
+            </div>
 
-      .signup-container {
-          background: white;
-          padding: 40px;
-          border-radius: 16px;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-          width: 100%;
-          max-width: 420px;
-          position: relative;
-          overflow: hidden;
-      }
-
-      .signup-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, #090d1fff 0%, #764ba2 100%);
-      }
-
-      .signup-header {
-          text-align: center;
-          margin-bottom: 30px;
-      }
-
-      .blog-icon {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #111216ff 0%, #764ba2 100%);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 20px;
-          color: white;
-          font-size: 24px;
-          font-weight: bold;
-      }
-
-      .signup-title {
-          font-size: 28px;
-          color: #2d3748;
-          font-weight: 700;
-          margin-bottom: 8px;
-      }
-
-      .signup-subtitle {
-          color: #718096;
-          font-size: 14px;
-      }
-
-      .form-group {
-          margin-bottom: 24px;
-      }
-
-      .form-label {
-          display: block;
-          margin-bottom: 8px;
-          color: #2d3748;
-          font-weight: 600;
-          font-size: 14px;
-      }
-
-      .password-hint {
-          color: #718096;
-          font-size: 12px;
-          font-style: italic;
-          margin-left: 4px;
-      }
-
-      .form-input {
-          width: 100%;
-          padding: 12px 16px;
-          border: 2px solid #e2e8f0;
-          border-radius: 8px;
-          font-size: 16px;
-          transition: all 0.3s ease;
-          background: #f7fafc;
-      }
-
-      .form-input:focus {
-          outline: none;
-          border-color: #171924ff;
-          background: white;
-          box-shadow: 0 0 0 3px rgba(23, 25, 36, 0.1);
-      }
-
-      .signup-button {
-          width: 100%;
-          padding: 14px;
-          background: linear-gradient(135deg, #1a1d2aff 0%, #764ba2 100%);
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-      }
-
-      .signup-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px rgba(26, 29, 42, 0.3);
-      }
-
-      .signup-button:active {
-          transform: translateY(0);
-      }
-
-      .signup-links {
-          text-align: center;
-          margin-top: 24px;
-          padding-top: 24px;
-          border-top: 1px solid #e2e8f0;
-      }
-
-      .signup-links a {
-          color: #171924ff;
-          text-decoration: none;
-          font-size: 14px;
-          margin: 0 8px;
-          transition: color 0.3s ease;
-      }
-
-      .signup-links a:hover {
-          color: #764ba2;
-          text-decoration: underline;
-      }
-
-      .error-message {
-          background: #fed7d7;
-          color: #c53030;
-          padding: 12px;
-          border-radius: 8px;
-          margin-bottom: 20px;
-          font-size: 14px;
-          border-left: 4px solid #c53030;
-      }
-
-      .error-message h2 {
-          font-size: 16px;
-          margin-bottom: 8px;
-      }
-
-      .error-message ul {
-          margin-left: 16px;
-      }
-
-      .error-message li {
-          margin-bottom: 4px;
-      }
-
-      .success-message {
-          background: #c6f6d5;
-          color: #2f855a;
-          padding: 12px;
-          border-radius: 8px;
-          margin-bottom: 20px;
-          font-size: 14px;
-          border-left: 4px solid #2f855a;
-      }
-
-      @media (max-width: 480px) {
-          .signup-container {
-              padding: 30px 20px;
-              margin: 10px;
-          }
-
-          .signup-title {
-              font-size: 24px;
-          }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="signup-container">
-      <div class="signup-header">
-        <div class="blog-icon">B</div>
-        <h2 class="signup-title">Create Account</h2>
-        <p class="signup-subtitle">Join our blog community</p>
-      </div>
-      <!-- Flash messages (Rails) -->
-      <% if notice %>
-        <div class="success-message"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-        <div class="error-message"><%= alert %></div>
-      <% end %>
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form" }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
-        <div class="form-group">
-          <%= f.label :name, "Name", class: "form-label" %>
-          <%= f.text_field :name, 
-                    autofocus: true, 
-                    placeholder: "Name",
-                    class: "form-input" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :name, "Surname", class: "form-label" %>
-          <%= f.text_field :surname, 
-                    autofocus: true, 
-                    placeholder: "Surname",
-                    class: "form-input" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :email, "Email Address", class: "form-label" %>
-          <%= f.email_field :email, 
-                    autofocus: true, 
-                    autocomplete: "email",
-                    placeholder: "Enter your email address",
-                    class: "form-input" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :password, class: "form-label" do %>
-            Password
-            <% if @minimum_password_length %>
-              <span class="password-hint">(<%= @minimum_password_length %> characters minimum)</span>
+            <!-- Flash messages -->
+            <% if notice %>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-sm">
+                    <%= notice %>
+                </div>
             <% end %>
-          <% end %>
-          <%= f.password_field :password, 
-                    autocomplete: "new-password",
-                    placeholder: "Create a secure password",
-                    class: "form-input" %>
+            
+            <% if alert %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+                    <%= alert %>
+                </div>
+            <% end %>
+
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <%= f.label :name, "Name", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                        <%= f.text_field :name, 
+                            autofocus: true, 
+                            placeholder: "Name",
+                            class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                            style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                    </div>
+                    <div>
+                        <%= f.label :surname, "Surname", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                        <%= f.text_field :surname, 
+                            placeholder: "Surname",
+                            class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                            style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                    </div>
+                </div>
+
+                <div>
+                    <%= f.label :email, "Email Address", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                    <%= f.email_field :email, 
+                        autocomplete: "email",
+                        placeholder: "Enter your email address",
+                        class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                </div>
+
+                <div>
+                    <%= f.label :password, class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" do %>
+                        Password
+                        <% if @minimum_password_length %>
+                            <span class="text-xs text-secondary font-normal">(<%= @minimum_password_length %> characters minimum)</span>
+                        <% end %>
+                    <% end %>
+                    <%= f.password_field :password, 
+                        autocomplete: "new-password",
+                        placeholder: "Create a secure password",
+                        class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                </div>
+
+                <div>
+                    <%= f.label :password_confirmation, "Confirm Password", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                    <%= f.password_field :password_confirmation, 
+                        autocomplete: "new-password",
+                        placeholder: "Confirm your password",
+                        class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                </div>
+
+                <div>
+                    <%= f.submit "Create Account", class: "w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" %>
+                </div>
+            <% end %>
+
+            <div class="mt-6 text-center">
+                <div class="text-sm text-secondary">
+                    <%= render "devise/shared/links" %>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
-          <%= f.password_field :password_confirmation, 
-                    autocomplete: "new-password",
-                    placeholder: "Confirm your password",
-                    class: "form-input" %>
-        </div>
-        <div class="form-group">
-          <%= f.submit "Create Account", class: "signup-button" %>
-        </div>
-      <% end %>
-      <div class="signup-links">
-        <%= render "devise/shared/links" %>
-      </div>
     </div>
-  </body>
-</html>

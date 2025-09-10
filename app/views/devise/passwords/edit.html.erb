@@ -1,337 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile - My Blog</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<% content_for :title, "Reset Password - MarioTechPortal" %>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #181a25ff 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .edit-container {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 480px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .edit-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #090d1fff 0%, #764ba2 100%);
-        }
-
-        .edit-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .blog-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #111216ff 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .edit-title {
-            font-size: 28px;
-            color: #2d3748;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .edit-subtitle {
-            color: #718096;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .field-hint {
-            color: #718096;
-            font-size: 12px;
-            font-style: italic;
-            margin-left: 4px;
-        }
-
-        .password-hint {
-            color: #718096;
-            font-size: 11px;
-            margin-top: 4px;
-            font-style: italic;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #171924ff;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(23, 25, 36, 0.1);
-        }
-
-        .pending-confirmation {
-            background: #fef7cd;
-            color: #92400e;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #f59e0b;
-        }
-
-        .update-button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #1a1d2aff 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .update-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(26, 29, 42, 0.3);
-        }
-
-        .update-button:active {
-            transform: translateY(0);
-        }
-
-        .danger-section {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid #fed7d7;
-        }
-
-        .danger-title {
-            font-size: 20px;
-            color: #c53030;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .danger-text {
-            color: #744210;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .delete-button {
-            background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .delete-button:hover {
-            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(197, 48, 48, 0.4);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #171924ff;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-
-        .error-message {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #c53030;
-        }
-
-        .error-message h2 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .error-message ul {
-            margin-left: 16px;
-        }
-
-        .error-message li {
-            margin-bottom: 4px;
-        }
-
-        .success-message {
-            background: #c6f6d5;
-            color: #2f855a;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #2f855a;
-        }
-
-        @media (max-width: 480px) {
-            .edit-container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
+<div class="w-full max-w-md px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-card rounded-lg shadow-lg border border-theme p-8 animate-on-scroll relative overflow-hidden">
+            <!-- Top colored bar with gradient -->
+            <div class="h-1 bg-gradient-to-r from-purple-500 to-purple-600 absolute top-0 left-0 right-0"></div>
             
-            .edit-title {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="edit-container">
-        <div class="edit-header">
-            <div class="blog-icon">B</div>
-            <h2 class="edit-title">Edit <%= resource_name.to_s.humanize %></h2>
-            <p class="edit-subtitle">Update your account settings</p>
-        </div>
-
-        <!-- Flash messages (Rails) -->
-        <% if notice %>
-            <div class="success-message"><%= notice %></div>
-        <% end %>
-        
-        <% if alert %>
-            <div class="error-message"><%= alert %></div>
-        <% end %>
-
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "edit-form" }) do |f| %>
-            <%= render "devise/shared/error_messages", resource: resource %>
-
-            <div class="form-group">
-                <%= f.label :email, "Email Address", class: "form-label" %>
-                <%= f.email_field :email, 
-                    autofocus: true, 
-                    autocomplete: "email",
-                    placeholder: "Your email address",
-                    class: "form-input" %>
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <span class="text-white text-2xl font-bold font-title">B</span>
+                </div>
+                <h2 class="text-3xl font-bold font-title mb-2" style="color: var(--text-color);">Reset Password</h2>
+                <p class="text-secondary">Enter your new password below</p>
             </div>
 
-            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                <div class="pending-confirmation">
-                    <strong>Pending confirmation:</strong> Currently waiting confirmation for <%= resource.unconfirmed_email %>
+            <!-- Flash messages -->
+            <% if notice %>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 text-sm">
+                    <%= notice %>
+                </div>
+            <% end %>
+            
+            <% if alert %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+                    <%= alert %>
                 </div>
             <% end %>
 
-            <div class="form-group">
-                <%= f.label :password, class: "form-label" do %>
-                    Password
-                    <span class="field-hint">(leave blank if you don't want to change it)</span>
-                <% end %>
-                <%= f.password_field :password, 
-                    autocomplete: "new-password",
-                    placeholder: "New password",
-                    class: "form-input" %>
-                <% if @minimum_password_length %>
-                    <div class="password-hint"><%= @minimum_password_length %> characters minimum</div>
-                <% end %>
-            </div>
+            <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
 
-            <div class="form-group">
-                <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
-                <%= f.password_field :password_confirmation, 
-                    autocomplete: "new-password",
-                    placeholder: "Confirm new password",
-                    class: "form-input" %>
-            </div>
+                <div>
+                    <%= f.label :password, "New Password", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                    <%= f.password_field :password, 
+                        autofocus: true,
+                        autocomplete: "new-password",
+                        placeholder: "Enter your new password",
+                        class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                    <% if @minimum_password_length %>
+                        <div class="text-xs text-secondary mt-1"><%= @minimum_password_length %> characters minimum</div>
+                    <% end %>
+                </div>
 
-            <div class="form-group">
-                <%= f.label :current_password, class: "form-label" do %>
-                    Current Password
-                    <span class="field-hint">(we need your current password to confirm changes)</span>
-                <% end %>
-                <%= f.password_field :current_password, 
-                    autocomplete: "current-password",
-                    placeholder: "Enter your current password",
-                    class: "form-input" %>
-            </div>
+                <div>
+                    <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium mb-2", style: "color: var(--text-color);" %>
+                    <%= f.password_field :password_confirmation, 
+                        autocomplete: "new-password",
+                        placeholder: "Confirm your new password",
+                        class: "w-full px-4 py-3 border border-theme rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent",
+                        style: "background-color: var(--card-bg); color: var(--text-color);" %>
+                </div>
 
-            <div class="form-group">
-                <%= f.submit "Update Profile", class: "update-button" %>
-            </div>
-        <% end %>
+                <div>
+                    <%= f.submit "Reset Password", class: "w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" %>
+                </div>
+            <% end %>
 
-        <div class="danger-section">
-            <h3 class="danger-title">Cancel Account</h3>
-            <p class="danger-text">Unhappy with your account? You can permanently delete it below.</p>
-            <%= button_to "Delete My Account", registration_path(resource_name), 
-                data: { 
-                    confirm: "Are you sure? This action cannot be undone.", 
-                    turbo_confirm: "Are you sure? This action cannot be undone." 
-                }, 
-                method: :delete,
-                class: "delete-button" %>
+            <div class="mt-6 text-center">
+                <div class="text-sm text-secondary">
+                    <%= render "devise/shared/links" %>
+                </div>
+            </div>
         </div>
-
-        <%= link_to "← Back", :back, class: "back-link" %>
     </div>
-</body>
-</html>

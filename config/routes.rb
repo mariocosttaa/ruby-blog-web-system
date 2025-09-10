@@ -54,6 +54,13 @@
 
     root "public/home#index"
 
-    devise_for :users
+    devise_for :users, path: 'auth', path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      sign_up: 'register',
+      password: 'recovery',
+      confirmation: 'verification',
+      unlock: 'unlock'
+    }
     get "up" => "rails/health#show", as: :rails_health_check
   end

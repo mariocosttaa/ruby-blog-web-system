@@ -26,6 +26,11 @@
       get    "categories/edit/:id",    to: "categories#edit",    as: :edit_category
       patch  "categories/update/:id",  to: "categories#update",  as: :update_category
       delete "categories/destroy/:id", to: "categories#destroy", as: :destroy_category
+
+      # Comments
+      get    "comments",               to: "comments#index",     as: :comments_index
+      patch  "comments/update/:id",    to: "comments#update",    as: :update_comment
+      delete "comments/destroy/:id",   to: "comments#destroy",   as: :destroy_comment
     end
 
     # PUBLIC ROUTES

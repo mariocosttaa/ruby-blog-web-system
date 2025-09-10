@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "comment", null: false
+    t.boolean "status", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_post_comments_on_post_id"

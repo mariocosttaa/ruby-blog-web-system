@@ -6,6 +6,7 @@ class CreatePostComments < ActiveRecord::Migration[8.0]
       t.string :name, null: false
       t.string :email, null: false
       t.string :comment, null: false
+      t.boolean :status, null: false, default: true
       t.timestamps
 
       # indexes

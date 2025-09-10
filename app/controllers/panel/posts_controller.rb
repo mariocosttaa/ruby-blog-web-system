@@ -75,53 +75,66 @@ end
     @tags = hashify_ids(tags, HASHIDS_TAG)
   end
 
-  def update
-  # Extrair categorias e tags
+def update
+  # Extract categories and tags
   category_names = post_params[:categories].to_a.map(&:strip).reject(&:blank?).uniq
   tag_names      = post_params[:tags].to_s.split(",").map(&:strip).reject(&:blank?).uniq
 
-  # Validações manuais
+  # Manual validations
   if category_names.empty?
-  redirect_back fallback_location: panel_edit_post_path(@post), type: :danger, notice: "Categories are required." and return
+    redirect_back fallback_location: panel_edit_post_path(@post), type: :danger, notice: "Categories are required." and return
   end
 
   if tag_names.empty?
-  redirect_back fallback_location: panel_edit_post_path(@post), type: :danger, notice: "Tags are required." and return
+    redirect_back fallback_location: panel_edit_post_path(@post), type: :danger, notice: "Tags are required." and return
   end
 
-  # Transação atômica
+  # Atomic transaction
   Post.transaction do
-  @post.assign_attributes(post_params.except(:categories, :tags))
-  @post.slug = @post.title.to_s.parameterize(separator: "-").downcase
-  @post.image.attach(post_params[:image]) if post_params[:image].present?
-  @post.save!
+    # Update main post attributes (except categories/tags)
+    @post.assign_attributes(post_params.except(:categories, :tags))
+    @post.slug = @post.title.to_s.parameterize(separator: "-").downcase
 
-  # Criar ou associar categories
-  categories = category_names.map do |name|
-  slug = name.downcase.gsub(" ", "-")
-  Category.find_or_create_by!(name: name, slug: slug, status: true)
-  end
-  @post.categories = categories
+    # Attach image only if present
+    if post_params[:image].present?
+      @post.image.attach(post_params[:image])
+    end
 
-  # Criar ou associar tags
-  tags = tag_names.map do |name|
-  Tag.find_or_create_by!(name: name, status: true)
-  end
-  @post.tags = tags
+    @post.save! # save post first
+
+    # Handle categories safely
+    categories = category_names.map do |name|
+      slug = name.downcase.gsub(" ", "-")
+      category = Category.find_or_initialize_by(name: name)
+      category.slug = slug
+      category.status = true
+      category.save! if category.new_record? || category.changed?
+      category
+    end
+    @post.categories = categories
+
+    # Handle tags safely
+    tags = tag_names.map do |name|
+      tag = Tag.find_or_initialize_by(name: name)
+      tag.status = true
+      tag.save! if tag.new_record? || tag.changed?
+      tag
+    end
+    @post.tags = tags
   end
 
   redirect_to panel_posts_index_path, type: :success, notice: "Post was successfully updated."
 
-  rescue ActiveRecord::RecordInvalid => e
-  # Captura qualquer erro na transação
+rescue ActiveRecord::RecordInvalid => e
+  # Rebuild categories and tags for the form
   categories = Category.all.order(created_at: :desc)
-  tags = Tag.all.order(created_at: :desc)
+  tags       = Tag.all.order(created_at: :desc)
   @categories = hashify_ids(categories, HASHIDS_CATEGORY)
-  @tags = hashify_ids(tags, HASHIDS_TAG)
+  @tags       = hashify_ids(tags, HASHIDS_TAG)
 
   flash.now[:danger] = "There was an error updating the post: #{e.message}"
   render :edit, status: :unprocessable_entity
-  end
+end
 
   def destroy
     @post.destroy

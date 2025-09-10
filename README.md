@@ -10,6 +10,12 @@
 
 A modern, feature-rich blog management system built with Ruby on Rails 8, featuring a beautiful admin panel, public-facing blog, and comprehensive content management capabilities.
 
+## 🖼️ Application Preview
+
+![MarioTechPortal Preview](app-preview.gif)
+
+*MarioTechPortal - A modern blog management system with dark theme, responsive design, and intuitive user interface*
+
 ## 🛠️ What We're Using
 
 ### **Backend Technologies**
@@ -135,6 +141,10 @@ rails server
 ### 7. Access the Application
 - **Public Blog**: http://localhost:3000
 - **Admin Panel**: http://localhost:3000/panel/dashboard
+- **Authentication**: 
+  - Login: http://localhost:3000/auth/login
+  - Register: http://localhost:3000/auth/register
+  - Password Recovery: http://localhost:3000/auth/recovery
 
 ### 8. Default Admin Account
 After running `rails db:seed`, you can log in with:
@@ -179,7 +189,8 @@ docker-compose down
 - **🔍 Advanced Search**: Real-time search with filtering options
 
 ### 🔧 Technical Features
-- **🔐 Secure Authentication**: Devise-based user management
+- **🔐 Secure Authentication**: Devise-based user management with clean URLs
+- **🛤️ Rails Branding**: Consistent Rails favicon across all pages
 - **🆔 HashID Integration**: Secure, non-sequential ID generation
 - **📊 Database Relations**: Well-structured many-to-many relationships
 - **🧪 Test Coverage**: Comprehensive test suite with Rails testing framework
@@ -292,6 +303,10 @@ rails server
 Visit `http://localhost:3000` to see the application.
 
 ## 📊 Database Schema
+
+![Database Structure](databases-extructure.png)
+
+*Complete database schema showing all tables, relationships, and data types*
 
 ### Core Tables
 
@@ -440,6 +455,16 @@ The application uses Devise for authentication with the following modules:
 devise :database_authenticatable, :registerable,
        :recoverable, :rememberable, :validatable
 ```
+
+### Clean Authentication URLs
+The application features user-friendly authentication URLs:
+
+- **Login**: `/auth/login` - User sign-in page
+- **Register**: `/auth/register` - User registration page  
+- **Logout**: `/auth/logout` - User sign-out (DELETE request)
+- **Password Recovery**: `/auth/recovery` - Password reset functionality
+- **Email Verification**: `/auth/verification` - Email confirmation
+- **Account Unlock**: `/auth/unlock` - Account unlock functionality
 
 ### Security Features
 - **CSRF Protection**: Built-in Rails CSRF tokens

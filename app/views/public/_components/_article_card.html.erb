@@ -1,18 +1,13 @@
 
 <%= link_to public_article_show_path(article_card.slug) do %>
   <article class="group bg-card rounded-2xl overflow-hidden border border-theme transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple/20">
-    <div class="h-48 bg-card flex items-center justify-center">
-      <span class="text-6xl opacity-40">
-          <% if article_card.image.attached? %>
-              <%= image_tag article_card.image, 
-                  alt: article_card.title, 
-                  class: "w-100 h-100 object-fit-cover",
-                  style: "object-fit: cover;" %>
-            <% else %>
-            NO IMAGE
-            <% end %>
-      </span>
-    </div>
+    <% if article_card.image.attached? %>
+      <div class="h-48 bg-card flex items-center justify-center">
+        <%= image_tag article_card.image, 
+            alt: article_card.title, 
+            class: "w-full h-full object-cover" %>
+      </div>
+    <% end %>
     <div class="p-6">
       <div class="flex gap-2 mb-3">
         <% article_card.categories.each do |category| %>

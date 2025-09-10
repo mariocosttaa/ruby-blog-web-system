@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ruby_blog_postgres_dev
+    environment:
+      POSTGRES_DB: ruby_blog_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MULTIPLE_DATABASES: ruby_blog_development,ruby_blog_test,ruby_blog_production
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
+    networks:
+      - ruby_blog_dev_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ruby_blog_redis_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - ruby_blog_dev_network
+
+  app:
+    build: .
+    container_name: ruby_blog_app_dev
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/rails
+      - /rails/node_modules
+      - /rails/tmp
+      - /rails/log
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ruby_blog_dev_network
+    command: >
+      sh -c "
+        bundle install &&
+        bin/rails db:create db:migrate &&
+        bin/rails server -b 0.0.0.0
+      "
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  ruby_blog_dev_network:
+    driver: bridge

@@ -1,39 +1,47 @@
 <!-- Header -->
 <%= render "panel/_components/header", 
-    title: "Tags", 
-    subtitle: "View All Tags", 
+    title: "Edit Tag: #{ @tag.name }", 
+    subtitle: "Update tag information", 
     breadcrumbs: (
-      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-      content_tag(:li, "Tags", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, link_to("Tags", panel_tags_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, "Edit", class: "flex items-center text-secondary", aria: { current: "page" })
     ) %>
 
+<!-- Error Messages -->
+<%= render "panel/_components/form_errors", errors: @tag.errors.full_messages %>
 
-<!-- Form Container -->
-<div class="container my-4">
-  
-    <%= render "panel/_components/form_errors", errors: @tag.errors.full_messages %>
-
-
-  <div class="card shadow-sm rounded-3 border-0">
-    <div class="card-body">
-      <%= form_with model: @tag, url: panel_update_tag_path, local: true do |form| %>
+<div class="max-w-2xl mx-auto">
+  <div class="bg-card rounded-xl shadow-sm border border-theme overflow-hidden animate-on-scroll">
+    <div class="p-8">
+      <%= form_with model: @tag, url: panel_update_tag_path, local: true, class: "space-y-6" do |form| %>
 
         <!-- Name Field -->
-        <div class="mb-3">
-          <%= form.label :name, "Tag Name *", class: "form-label" %>
-          <%= form.text_field :name, class: "form-control", placeholder: "Enter tag name", required: true%>
+        <div>
+          <%= form.label :name, "Tag Name", class: "block text-sm font-medium text-secondary mb-2" %>
+          <%= form.text_field :name, 
+              class: "w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200", 
+              style: "background-color: var(--card-bg); color: var(--text-color);",
+              placeholder: "Enter tag name", 
+              required: true %>
         </div>
 
         <!-- Status Switch -->
-        <div class="form-check form-switch mb-3">
-          <%= form.check_box :status, class: "form-check-input", role: "switch" %>
-          <%= form.label :status, "Active?", class: "form-check-label" %>
+        <div class="flex items-center">
+          <%= form.check_box :status, 
+              class: "h-4 w-4 text-purple-600 focus:ring-purple-500 border-theme rounded", 
+              role: "switch" %>
+          <%= form.label :status, "Active Tag", 
+              class: "ml-3 text-sm font-medium text-secondary" %>
         </div>
 
         <!-- Buttons -->
-        <div class="d-flex justify-content-between">
-          <%= link_to "Back", panel_tags_index_path, class: "btn btn-secondary" %>
-          <%= form.submit "Create Tag", class: "btn btn-primary" %>
+        <div class="flex justify-between pt-6 border-t border-theme">
+          <%= link_to "Back", panel_tags_index_path, 
+              class: "px-6 py-3 border border-theme text-secondary rounded-lg transition-colors duration-200",
+              style: "color: var(--text-color); background-color: var(--card-bg);" %>
+          <%= form.submit "Update Tag", 
+              class: "px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors duration-200" %>
         </div>
 
       <% end %>

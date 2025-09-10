@@ -3,96 +3,119 @@
     title: "Tags",
     subtitle: "View All Tags",
     breadcrumbs: (
-      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-      content_tag(:li, "Tags", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, "Tags", class: "flex items-center text-secondary", aria: { current: "page" })
     ),
-    action_button: link_to("Create Tag", panel_new_tag_path, class: "btn btn-sm btn-primary") %>
+    action_button: link_to("Create Tag", panel_new_tag_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200") %>
 
 <%= render "panel/_components/alert_message" %>
 
-<div class="container my-4">
+<div class="max-w-7xl mx-auto">
   <% if @tags.empty? %>
-    <div class="alert alert-info text-center">
-      No tags available.
-      <%= link_to "Create one now", panel_new_tag_path, class: "btn btn-sm btn-primary ms-2" %>
+    <div class="bg-card border border-theme rounded-lg p-8 text-center animate-on-scroll">
+      <div class="text-purple text-6xl mb-4">🏷️</div>
+      <h3 class="text-xl font-semibold style="color: var(--text-color);" mb-2">No tags available</h3>
+      <p class="text-secondary mb-4">Get started by creating your first tag.</p>
+      <%= link_to "Create one now", panel_new_tag_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200" %>
     </div>
   <% else %>
-    <div class="row g-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-on-scroll">
       <% @tags.each do |tag| %>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-          <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
-            <!-- Top colored bar with orange theme -->
-            <div style="height: 5px;" class="bg bg-primary"></div>
+        <div class="bg-card rounded-lg shadow-sm border border-theme overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <!-- Top colored bar with gradient -->
+          <div class="h-1 bg-gradient-to-r from-orange-500 to-orange-600"></div>
+          
+          <div class="p-4 flex flex-col h-full">
+            <!-- Tag Icon and Name -->
+            <div class="flex items-center mb-3">
+              <div class="w-8 h-8 bg-orange-100 rounded flex items-center justify-center mr-3" style="background-color: var(--card-bg);">
+                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+              </div>
+              <div class="flex-grow">
+                <h5 class="text-sm font-bold style="color: var(--text-color);" mb-1 line-clamp-1">
+                  <%= truncate(tag.name, length: 20) %>
+                </h5>
+                <div class="text-xs text-secondary flex items-center">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                  </svg>
+                  <%= tag.name.downcase.gsub(' ', '') %>
+                </div>
+              </div>
+            </div>
             
-            <div class="card-body d-flex flex-column">
-              <!-- Tag Icon and Name -->
-              <div class="d-flex align-items-center mb-3">
-                <div class="me-3">
-                  <i class="fas fa-tag text-warning" style="font-size: 1.5rem;"></i>
+            <!-- Status Badge -->
+            <div class="mb-3">
+              <% if tag.status %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border border-green-200 text-green-700" style="background-color: var(--card-bg);">
+                  <svg class="w-2 h-2 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Active
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border border-gray-200 text-gray-600" style="background-color: var(--card-bg);">
+                  <svg class="w-2 h-2 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                  </svg>
+                  Inactive
+                </span>
+              <% end %>
+            </div>
+            
+            <!-- Posts Count -->
+            <div class="mb-3">
+              <div class="text-xs text-secondary flex items-center">
+                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span><%= tag.posts.count rescue 0 %> posts</span>
+              </div>
+            </div>
+            
+            <!-- Meta Information -->
+            <div class="text-xs text-secondary mb-3 flex-grow">
+              <div class="mb-1 flex items-center">
+                <svg class="w-2 h-2 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Created: <%= tag.created_at.strftime("%b %d, %Y") %>
+              </div>
+              <% if tag.updated_at != tag.created_at %>
+                <div class="flex items-center">
+                  <svg class="w-2 h-2 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  Updated: <%= tag.updated_at.strftime("%b %d, %Y") %>
                 </div>
-                <div class="flex-grow-1">
-                  <h5 class="card-title fw-bold text-dark mb-1">
-                    <%= truncate(tag.name, length: 20) %>
-                  </h5>
-                  <small class="text-muted">
-                    <i class="fas fa-hashtag me-1"></i><%= tag.name.downcase.gsub(' ', '') %>
-                  </small>
-                </div>
-              </div>
+              <% end %>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="mt-auto flex gap-1">
+              <%= link_to panel_edit_tag_path(tag.id), 
+                  class: "flex-1 bg-orange-600 hover:bg-orange-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                  title: "Edit Tag" do %>
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                Edit
+              <% end %>
               
-              <!-- Status Badge -->
-              <div class="mb-3">
-                <% if tag.status %>
-                  <span class="badge bg-success">
-                    <i class="fas fa-check-circle me-1"></i>Active
-                  </span>
-                <% else %>
-                  <span class="badge bg-danger">
-                    <i class="fas fa-times-circle me-1"></i>Inactive
-                  </span>
-                <% end %>
-              </div>
-              
-              <!-- Posts Count (if you have this relationship) -->
-              <div class="mb-3">
-                <small class="text-muted d-flex align-items-center">
-                  <i class="fas fa-file-alt me-2"></i>
-                  <span><%= tag.posts.count rescue 0 %> posts</span>
-                </small>
-              </div>
-              
-              <!-- Meta Information -->
-              <div class="small text-muted mb-3 flex-grow-1">
-                <div class="mb-2">
-                  <i class="fas fa-calendar-plus me-1"></i>
-                  Created: <%= tag.created_at.strftime("%b %d, %Y") %>
-                </div>
-                <% if tag.updated_at != tag.created_at %>
-                  <div>
-                    <i class="fas fa-calendar-check me-1"></i>
-                    Updated: <%= tag.updated_at.strftime("%b %d, %Y") %>
-                  </div>
-                <% end %>
-              </div>
-              
-              <!-- Action Buttons -->
-              <div class="mt-auto d-flex gap-2">
-                <%= link_to panel_edit_tag_path(tag.id), 
-                    class: "btn btn-sm btn-outline-warning flex-fill",
-                    title: "Edit Tag" do %>
-                  <i class="fas fa-edit me-1"></i> Edit
-                <% end %>
-                
-                <%= button_to panel_destroy_tag_path(tag.id), 
-                    method: :delete, 
-                    data: { 
-                      confirm: "Are you sure you want to delete the tag '#{tag.name}'?" 
-                    }, 
-                    class: "btn btn-sm btn-outline-danger flex-fill",
-                    title: "Delete Tag" do %>
-                  <i class="fas fa-trash me-1"></i> Delete
-                <% end %>
-              </div>
+              <%= button_to panel_destroy_tag_path(tag.id), 
+                  method: :delete, 
+                  data: { 
+                    confirm: "Are you sure you want to delete the tag '#{tag.name}'?" 
+                  }, 
+                  class: "flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                  title: "Delete Tag" do %>
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                Delete
+              <% end %>
             </div>
           </div>
         </div>

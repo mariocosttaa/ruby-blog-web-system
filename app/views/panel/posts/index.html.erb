@@ -3,100 +3,108 @@
     title: "Posts",
     subtitle: "View All Posts",
     breadcrumbs: (
-      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-      content_tag(:li, "Posts", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, "Posts", class: "flex items-center text-secondary", aria: { current: "page" })
     ),
-    action_button: link_to("Create Post", panel_new_post_path, class: "btn btn-sm btn-primary") %>
+    action_button: link_to("Create Post", panel_new_post_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200") %>
 
 <%= render "panel/_components/alert_message" %>
 
-<div class="container my-4">
+<div class="max-w-7xl mx-auto">
   <% if @posts.empty? %>
-    <div class="alert alert-info text-center">
-      No posts available.
-      <%= link_to "Create one now", panel_new_post_path, class: "btn btn-sm btn-primary ms-2" %>
+    <div class="bg-card border border-theme rounded-lg p-8 text-center animate-on-scroll">
+      <div class="text-purple text-6xl mb-4">📝</div>
+      <h3 class="text-xl font-semibold mb-2" style="color: var(--text-color);">No posts available</h3>
+      <p class="text-secondary mb-4">Get started by creating your first blog post.</p>
+      <%= link_to "Create one now", panel_new_post_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200" %>
     </div>
   <% else %>
-    <div class="row g-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-on-scroll">
       <% @posts.each do |post| %>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="card pull-up shadow-sm rounded-3 h-100 border-0">
-            <!-- Top colored bar -->
-            <div class="bg-primary" style="height: 5px;"></div>
+        <div class="bg-card rounded-lg shadow-sm border border-theme overflow-hidden hover:shadow-md transition-shadow duration-200 group cursor-pointer" onclick="window.location.href='<%= public_article_show_path(post.id) %>'">
+          <!-- Top colored bar -->
+          <div class="h-1 bg-gradient-to-r from-purple-500 to-purple-600"></div>
+          
+          <!-- Post Image -->
+          <div class="relative h-32 overflow-hidden">
+            <% if post.image.attached? %>
+              <%= image_tag post.image, 
+                  alt: post.title, 
+                  class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" %>
+            <% else %>
+              <div class="w-full h-full bg-gray-100 flex items-center justify-center" style="background-color: var(--card-bg);">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="p-4 flex flex-col h-full">
+            <h5 class="text-sm font-bold mb-2 line-clamp-2" style="color: var(--text-color);">
+              <%= truncate(post.title, length: 50) %>
+            </h5>
             
-            <!-- Post Image -->
-            <div class="card-img-top position-relative overflow-hidden" style="height: 200px;">
-              <% if post.image.attached? %>
-                <%= image_tag post.image, 
-                    alt: post.title, 
-                    class: "w-100 h-100 object-fit-cover",
-                    style: "object-fit: cover;" %>
-              <% else %>
-                <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                  <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
-                </div>
-              <% end %>
+            <p class="mb-3 flex-grow line-clamp-2 text-xs text-secondary">
+              <%= truncate(strip_tags(post.description.presence || "No description provided."), length: 80) %>
+            </p>
+            
+            <!-- Post Meta Information -->
+            <div class="text-xs text-secondary mb-3">
+              <div class="flex justify-between items-center">
+                <span class="flex items-center">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <%= post.created_at.strftime("%b %d, %Y") %>
+                </span>
+                <span class="px-2 py-1 rounded-full text-xs font-medium border <%= post.status ? 'border-green-200 text-green-700' : 'border-gray-200 text-gray-600' %>" style="background-color: var(--card-bg);">
+                  <%= post.status ? "Published" : "Draft" %>
+                </span>
+              </div>
             </div>
             
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title fw-bold text-dark mb-2">
-                <%= truncate(post.title, length: 50) %>
-              </h5>
-              
-              <p class="card-text text-muted mb-3 flex-grow-1">
-                <%= truncate(post.description.presence || "No description provided.", length: 100) %>
-              </p>
-              
-              <!-- Post Meta Information -->
-              <div class="small text-muted mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <span>
-                    <i class="fas fa-calendar-alt me-1"></i>
-                    <%= post.created_at.strftime("%b %d, %Y") %>
-                  </span>
-                  <span class="badge bg-success">
-                    <%= post.status ? "Published" : "Draft" %>
-                  </span>
-                </div>
-              </div>
-              
-              <!-- Categories and Tags -->
-              <% if post.categories.any? %>
-                <div class="mb-2">
-                  <small class="text-muted">Categories:</small><br>
-                  <% post.categories.each do |category| %>
-                    <span class="badge bg-primary me-1"><%= category.name %></span>
+            <!-- Categories and Tags -->
+            <% if post.categories.any? %>
+              <div class="mb-2">
+                <div class="flex flex-wrap gap-1">
+                  <% post.categories.first(2).each do |category| %>
+                    <span class="px-2 py-1 text-xs rounded-full" style="background-color: var(--purple); color: white; opacity: 0.8;">
+                      <%= category.name %>
+                    </span>
+                  <% end %>
+                  <% if post.categories.count > 2 %>
+                    <span class="px-2 py-1 text-xs rounded-full text-secondary" style="background-color: var(--card-bg);">
+                      +<%= post.categories.count - 2 %>
+                    </span>
                   <% end %>
                 </div>
-              <% end %>
-              
-              <% if post.tags.any? %>
-                <div class="mb-3">
-                  <small class="text-muted">Tags:</small><br>
-                  <% post.tags.each do |tag| %>
-                    <span class="badge bg-secondary me-1"><%= tag.name %></span>
-                  <% end %>
-                </div>
-              <% end %>
-              
-              <!-- Action Buttons -->
-              <div class="mt-auto d-flex gap-2">
-                <%= link_to panel_edit_post_path(post.id), 
-                    class: "btn btn-sm btn-outline-primary flex-fill",
-                    title: "Edit Post" do %>
-                  <i class="fas fa-edit me-1"></i> Edit
-                <% end %>
-                
-                <%= button_to panel_destroy_post_path(post.id), 
-                    method: :delete, 
-                    data: { 
-                      confirm: "Are you sure you want to delete '#{post.title}'?" 
-                    }, 
-                    class: "btn btn-sm btn-outline-danger flex-fill",
-                    title: "Delete Post" do %>
-                  <i class="fas fa-trash me-1"></i> Delete
-                <% end %>
               </div>
+            <% end %>
+            
+            <!-- Action Buttons -->
+            <div class="flex gap-1" onclick="event.stopPropagation()">
+              <%= link_to panel_edit_post_path(post.id), 
+                  class: "flex-1 bg-purple-600 hover:bg-purple-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                  title: "Edit Post" do %>
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                Edit
+              <% end %>
+              
+              <%= button_to panel_destroy_post_path(post.id), 
+                  method: :delete, 
+                  data: { 
+                    confirm: "Are you sure you want to delete '#{post.title}'?" 
+                  }, 
+                  class: "flex-1 bg-red-600 hover:bg-red-700 text-white text-center py-1.5 px-2 rounded text-xs font-medium transition-colors duration-200",
+                  title: "Delete Post" do %>
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                Delete
+              <% end %>
             </div>
           </div>
         </div>

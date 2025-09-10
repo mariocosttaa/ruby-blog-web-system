@@ -3,55 +3,78 @@
     title: "Create New Post", 
     subtitle: "Write and publish a new blog post", 
     breadcrumbs: (
-      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path), class: "breadcrumb-item") +
-      content_tag(:li, "Posts", class: "breadcrumb-item active", aria: { current: "page" })
+      content_tag(:li, link_to("Dashboard", panel_dashboard_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, link_to("Posts", panel_posts_index_path, class: "text-purple hover:text-purple/80"), class: "flex items-center") +
+      content_tag(:li, "New Post", class: "flex items-center text-secondary", aria: { current: "page" })
     ) %>
 
 <!-- Errors -->
 <%= render "panel/_components/form_errors", errors: @post.errors.full_messages %>
 
-<div class="container my-4">
-  <div class="card shadow-sm rounded-3 border-0">
-    <div class="card-body">
-      <%= form_with model: @post, url: panel_create_post_path, local: true, multipart: true do |form| %>
+<div class="max-w-4xl mx-auto">
+  <div class="bg-card rounded-xl shadow-sm border border-theme overflow-hidden animate-on-scroll">
+    <div class="p-8">
+      <%= form_with model: @post, url: panel_create_post_path, local: true, multipart: true, class: "space-y-6" do |form| %>
 
         <!-- Post Title -->
-        <div class="mb-3">
-          <%= form.label :title, "Post Title *", class: "form-label" %>
-          <%= form.text_field :title, class: "form-control", placeholder: "Enter your post title...", required: true, value: @post.title %>
+        <div>
+          <%= form.label :title, "Post Title", class: "block text-sm font-medium text-secondary mb-2" %>
+          <%= form.text_field :title, 
+              class: "w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200", 
+              style: "background-color: var(--card-bg); color: var(--text-color);",
+              placeholder: "Enter your post title...", 
+              required: true, 
+              value: @post.title %>
         </div>
 
         <!-- Featured Image -->
-        <div class="mb-3">
-          <%= form.label :image, "Featured Image", class: "form-label" %>
-          <%= form.file_field :image, accept: "image/*", class: "form-control" %>
-          <small class="form-text text-muted">Supported formats: JPG, PNG, GIF (Max 5MB)</small>
+        <div>
+          <%= form.label :image, "Featured Image", class: "block text-sm font-medium text-secondary mb-2" %>
+          <%= form.file_field :image, 
+              accept: "image/*", 
+              class: "w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200",
+              style: "background-color: var(--card-bg); color: var(--text-color);" %>
+          <p class="mt-2 text-sm text-secondary">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
         </div>
 
         <!-- Categories (Select2 with tagging) -->
-        <div class="mb-3">
-          <%= form.label :categories, "Categories *", class: "form-label" %>
-          <%= form.select :categories, @categories.map { |c| [c.name, c.name] }, { selected: @submitted_categories || [] }, { multiple: true, class: "form-select select2", data: { "select2-tagging": true } } %>
+        <div>
+          <%= form.label :categories, "Categories", class: "block text-sm font-medium text-secondary mb-2" %>
+          <%= form.select :categories, 
+              @categories.map { |c| [c.name, c.name] }, 
+              { selected: @submitted_categories || [] }, 
+              { multiple: true, 
+                class: "w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200 select2",
+                style: "background-color: var(--card-bg); color: var(--text-color);", 
+                data: { "select2-tagging": true } } %>
         </div>
 
         <!-- Content (Quill.js Editor) -->
-        <div class="mb-3">
-          <%= form.label :description, "Description *", class: "form-label" %>
-          <small class="text-info d-block" style="margin-top: -10px; padding-bottom: 10px;">Minimum 100 characters.</small>
-          <div id="editor" style="min-height: 200px;"></div>
+        <div>
+          <%= form.label :description, "Content", class: "block text-sm font-medium text-secondary mb-2" %>
+          <p class="text-sm text-purple mb-3">Minimum 100 characters.</p>
+          <div id="editor" class="min-h-[300px] border border-theme rounded-lg"></div>
           <%= form.hidden_field :description, id: "post_description", value: @post.description %>
         </div>
 
         <!-- Tags (Tagify) -->
-        <div class="mb-3">
-          <%= form.label :tags, "Tags *", class: "form-label" %>
-          <%= form.text_field :tags, class: "form-control", placeholder: "Type tags...", value: @submitted_tags&.join(','), data: { "tagify": true } %>
+        <div>
+          <%= form.label :tags, "Tags", class: "block text-sm font-medium text-secondary mb-2" %>
+          <%= form.text_field :tags, 
+              class: "w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors duration-200", 
+              style: "background-color: var(--card-bg); color: var(--text-color);",
+              placeholder: "Type tags...", 
+              value: @submitted_tags&.join(','), 
+              data: { "tagify": true } %>
         </div>
 
         <!-- Buttons -->
-        <div class="d-flex justify-content-between">
-          <%= link_to "Cancel", panel_posts_index_path, class: "btn btn-secondary" %>
-          <%= form.submit "Publish Post", class: "btn btn-primary" %>
+        <div class="flex justify-between pt-6 border-t border-theme">
+          <%= link_to "Cancel", panel_posts_index_path, 
+              class: "px-6 py-3 border border-theme text-secondary rounded-lg transition-colors duration-200",
+              style: "color: var(--text-color); background-color: var(--card-bg);" %>
+          <%= form.submit "Publish Post", 
+              class: "px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors duration-200" %>
         </div>
 
       <% end %>

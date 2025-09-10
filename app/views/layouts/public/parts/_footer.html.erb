@@ -1,14 +1,15 @@
+<div class="pt-20"></div>
+
 <footer class="bg-card border-t border-theme mt-auto py-8">
   <div class="container mx-auto px-4">
     <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="text-center md:text-left mb-4 md:mb-0">
-        <%= link_to "Mario<span class='text-purple'>Portal</span>".html_safe, root_path, class: "text-2xl font-bold" %>
-        <p class="text-sm text-secondary mt-2">&copy; <%= Time.current.year %> MarioTechPortal. All rights reserved.</p>
+        <%= link_to "MarioTech<span class='text-purple'>Portal</span>".html_safe, root_path, class: "text-2xl font-bold" %>
+        <p class="text-sm text-secondary mt-2">&copy; <%= Time.current.year %> MarioTechPortal. All rights reserved. Created by <a href="https://github.com/ryuichi1975" target="_blank">Ryuichi</a> and <a href="https://github.com/mario-tech" target="_blank">MarioTech</a>.</p>
       </div>
       <div class="flex gap-4">
-        <%= link_to 'Privacy Policy', '#', class: 'text-sm hover:text-purple transition-colors' %>
-        <%= link_to 'Terms of Service', '#', class: 'text-sm hover:text-purple transition-colors' %>
-        <%= link_to 'Contact', '#', class: 'text-sm hover:text-purple transition-colors' %>
+        <%= link_to 'Privacy Policy', public_privacy_policy_index_path, class: 'text-sm hover:text-purple transition-colors' %>
+        <%= link_to 'Terms of Use', public_terms_of_use_index_path, class: 'text-sm hover:text-purple transition-colors' %>
       </div>
     </div>
   </div>

@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" style="background-color: var(--bg-color); color: var(--text-color);">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarioTechPortal - Tech News & Insights</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com/typography@0.5.x"></script>
+    <script src="https://cdn.tailwindcss.com/typography@3.4.16"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
+    <!-- Theme initialization script - prevents flash -->
+    <script>
+      // Apply theme immediately to prevent flash
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      })();
+    </script>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <div id="preloader" class="fixed top-0 left-0 w-full h-full bg-bg-color z-50 flex justify-center items-center">
-      <div class="loader"></div>
-    </div>
+  <body class="min-h-screen flex flex-col" style="background-color: var(--bg-color); color: var(--text-color);">
     <!-- Navbar -->
     <%= render "layouts/public/parts/navbar" %>
 
-    <main class="flex-grow pt-16 px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-grow pt-12 px-4 sm:px-6 lg:px-8 py-6">
       <%= yield  %>
     </main>
     
@@ -24,6 +30,9 @@
     <%= render "layouts/public/parts/footer" %>
     <!-- JavaScript -->
     <script>
+      // Global variables for theme toggle
+      let themeToggleBtn, mobileThemeToggleBtn;
+      
       // Theme Toggle
       function toggleTheme() {
           const html = document.documentElement;
@@ -31,6 +40,19 @@
           const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
           html.setAttribute('data-theme', newTheme);
           localStorage.setItem('theme', newTheme);
+          
+          
+          // Update theme toggle icon
+          if (themeToggleBtn) {
+              const svg = themeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (newTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
       }
 
       // Mobile menu toggle
@@ -44,15 +66,45 @@
           // Apply saved theme
           const savedTheme = localStorage.getItem('theme') || 'dark';
           document.documentElement.setAttribute('data-theme', savedTheme);
+          
+          // Set correct theme toggle icon
+          themeToggleBtn = document.getElementById('theme-toggle-btn');
+          mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle-btn');
+          
+          if (themeToggleBtn) {
+              const svg = themeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (savedTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
+          
+          if (mobileThemeToggleBtn) {
+              const svg = mobileThemeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (savedTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
 
           // Theme toggle functionality
-          const themeToggleBtn = document.getElementById('theme-toggle-btn');
-          const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle-btn');
           if (themeToggleBtn) {
-              themeToggleBtn.addEventListener('click', toggleTheme);
+              themeToggleBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  toggleTheme();
+              });
           }
           if (mobileThemeToggleBtn) {
-              mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+              mobileThemeToggleBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  toggleTheme();
+              });
           }
 
           // Mobile menu functionality
@@ -85,16 +137,6 @@
           });
       });
 
-      // Preloader
-      window.addEventListener('load', function() {
-          const preloader = document.getElementById('preloader');
-          if (preloader) {
-              preloader.style.opacity = '0';
-              setTimeout(function() {
-                  preloader.style.display = 'none';
-              }, 500);
-          }
-      });
     </script>
   </body>
 </html>

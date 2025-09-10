@@ -1,210 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <title><%= content_for(:title) || "Ruby Blog Web System" %></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= yield :head %>
+<html lang="en" data-theme="dark" style="background-color: var(--bg-color); color: var(--text-color);">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for(:title) || "Admin Panel - MarioTechPortal" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
-
-  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-
-  <style>
-    /* ----------------- PRIMARY COLOR ----------------- */
-    :root {
-      --primary-color: #7c3aed;       /* roxo do navbar */
-      --primary-color-dark: #6d28d9;  /* hover/active escuro */
-    }
-
-    /* Navbar e links */
-    .nav-link.active,
-    .nav-link:hover {
-      background-color: var(--primary-color-dark) !important;
-      color: white !important;
-    }
-
-    /* Botões primários */
-    .btn-primary {
-      background-color: var(--primary-color) !important;
-      border-color: var(--primary-color) !important;
-      color: white !important;
-    }
-
-    .btn-primary:hover,
-    .btn-primary:focus,
-    .btn-primary:active,
-    .btn-primary:active:focus,
-    .btn-primary.focus {
-      background-color: var(--primary-color-dark) !important;
-      border-color: var(--primary-color-dark) !important;
-      color: white !important;
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3) !important;
-    }
-
-    /* Botões outline */
-    .btn-outline-primary {
-      color: var(--primary-color) !important;
-      border-color: var(--primary-color) !important;
-    }
-    .btn-outline-primary:hover,
-    .btn-outline-primary:focus {
-      color: white !important;
-      background-color: var(--primary-color-dark) !important;
-      border-color: var(--primary-color-dark) !important;
-    }
-
-    /* Elementos secundários com primary */
-    .section-icon,
-    .stat-icon,
-    .quick-btn,
-    .tag {
-      background-color: var(--primary-color);
-      color: white;
-    }
-
-    /* Zoom do conteúdo sem afetar navbar/footer */
-    .content-zoom {
-      transform: scale(0.85);
-      transform-origin: top center;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    nav.navbar, footer.footer {
-      width: 100%;
-    }
-
-    body.d-flex {
-      min-height: 100vh;
-      flex-direction: column;
-    }
-
-    main.flex-grow-1 {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .content-zoom {
-        transform: scale(1);
-      }
-    }
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/typography@3.4.16"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     
-  /* Ajustes de cores e hover dos botões */
-  .btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  .btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color-dark);
-  }
+    <!-- Theme initialization script - prevents flash -->
+    <script>
+      // Apply theme immediately to prevent flash
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col" style="background-color: var(--bg-color); color: var(--text-color);">
+    
+    <!-- Navbar -->
+    <%= render "layouts/panel/parts/navbar" %>
 
-  .btn-outline-secondary {
-    color: #6c757d;
-    border-color: #6c757d;
-  }
-  .btn-outline-secondary:hover {
-    background-color: #6c757d;
-    color: white;
-  }
-
-  .btn-outline-danger:hover {
-    background-color: #dc2626;
-    color: white;
-    border-color: #b91c1c;
-  }
-
-  /* Cartões menores */
-  .card {
-    font-size: 0.9rem;
-  }
-
-  /* Barra superior roxa */
-  .bg-primary {
-    background-color: var(--primary-color) !important;
-  }
-
-    .page-header {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .page-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a202c;
-  }
-
-  .page-subtitle {
-    font-size: 14px;
-    color: #6b7280;
-  }
-
-  /* Bootstrap breadcrumb overrides */
-  .breadcrumb {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-  }
-
-  .breadcrumb-item + .breadcrumb-item::before {
-    content: ">";
-    color: #d1d5db;
-    padding: 0 5px;
-  }
-
-  .breadcrumb-item a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .breadcrumb-item a:hover {
-    color: var(--primary-color-dark);
-    text-decoration: underline;
-  }
-
-  .breadcrumb-item.active {
-    color: #6b7280;
-  }
-
-    /* Hover effect opcional */
-    .pull-up:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-  </style>
-</head>
-<body class="d-flex flex-column">
-
-  <!-- Navbar -->
-  <%= render "layouts/panel/parts/navbar" %>
-
-  <!-- Main Content with zoom -->
-  <main class="flex-grow-1">
-    <div class="content-zoom">
+    <main class="flex-grow pt-12 px-4 sm:px-6 lg:px-8 py-6">
       <%= yield %>
-    </div>
-  </main>
+    </main>
+    
+    <!-- Footer -->
+    <%= render "layouts/panel/parts/footer" %>
+    
+    <!-- JavaScript -->
+    <script>
+      // Global variables for theme toggle
+      let themeToggleBtn, mobileThemeToggleBtn;
+      
+      // Theme Toggle
+      function toggleTheme() {
+          const html = document.documentElement;
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          
+          html.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          
+          
+          // Update theme toggle icon
+          if (themeToggleBtn) {
+              const svg = themeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (newTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
+          
+          // Update mobile theme toggle icon
+          if (mobileThemeToggleBtn) {
+              const svg = mobileThemeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (newTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
+      }
 
-  <!-- Footer -->
-  <%= render "layouts/panel/parts/footer" %>
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+          const mobileMenu = document.getElementById('mobile-menu');
+          mobileMenu.classList.toggle('hidden');
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-          integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-          integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-          crossorigin="anonymous"></script>
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function() {
+          // Apply saved theme
+          const savedTheme = localStorage.getItem('theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', savedTheme);
+          
+          // Theme toggle functionality
+          themeToggleBtn = document.getElementById('theme-toggle-btn');
+          mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle-btn');
+          
+          // Set correct theme toggle icon
+          if (themeToggleBtn) {
+              const svg = themeToggleBtn.querySelector('svg path');
+              if (svg) {
+                  if (savedTheme === 'dark') {
+                      svg.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+                  } else {
+                      svg.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+                  }
+              }
+          }
+          
+          if (themeToggleBtn) {
+              themeToggleBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  toggleTheme();
+              });
+          }
+          
+          if (mobileThemeToggleBtn) {
+              mobileThemeToggleBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  toggleTheme();
+              });
+          }
 
-</body>
+          // Mobile menu functionality
+          const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+          if (mobileMenuBtn) {
+              mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+          }
+
+          // Add fade-in animation on scroll
+          const observerOptions = {
+              threshold: 0.1,
+              rootMargin: '0px 0px -50px 0px'
+          };
+
+          const observer = new IntersectionObserver(function(entries) {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.style.opacity = '1';
+                      entry.target.style.transform = 'translateY(0)';
+                  }
+              });
+          }, observerOptions);
+
+          // Observe all elements with .animate-on-scroll
+          document.querySelectorAll('.animate-on-scroll').forEach(element => {
+              element.style.opacity = '0';
+              element.style.transform = 'translateY(20px)';
+              element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+              observer.observe(element);
+          });
+      });
+
+    </script>
+  </body>
 </html>

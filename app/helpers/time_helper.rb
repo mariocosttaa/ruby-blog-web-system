@@ -1,6 +1,8 @@
 # app/helpers/time_helper.rb
 module TimeHelper
   def time_ago(time)
+    return nil if time.nil?
+
     seconds = (Time.now - time).to_i
     minutes = (seconds / 60).to_i
     hours   = (minutes / 60).to_i

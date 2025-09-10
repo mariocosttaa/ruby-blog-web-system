@@ -1,0 +1,77 @@
+<!-- Main Content -->
+<main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-20 px-4 animate-on-scroll">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in text-purple font-title">
+                MarioTechPortal
+            </h2>
+            <p class="text-xl text-secondary mb-8 animate-slide-up">
+                Your daily source for the latest news and trends in technology.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
+                <%= link_to "View Articles", "#", class: "px-8 py-3 bg-purple hover:bg-purple/90 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple/25" %>
+                <%= link_to "Explore", "#", class: "px-8 py-3 border border-theme hover:bg-purple/20 rounded-full font-semibold transition-all duration-300" %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Posts -->
+    <% if @posts.present? %>
+        <section class="py-16 px-4 animate-on-scroll" style="cursor: pointer;">
+            <div class="max-w-6xl mx-auto">
+                <h3 class="text-3xl font-bold mb-8 text-center text-purple">Recent Articles</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <%= render partial: 'public/_components/article_card', collection: @posts %>
+                </div>
+                <div class="text-center mt-12">
+                    <%= link_to "View More Articles", public_articles_index_path, class: "px-8 py-3 bg-purple hover:bg-purple/90 rounded-full font-semibold transition-all duration-300 transform hover:scale-105" %>
+                </div>
+            </div>
+        </section>
+    <% else %>
+        <div class="text-center pt-16 pb-8">
+            <h3 class="text-3xl font-bold mb-4 text-purple">No Recent Articles Found</h3>
+            <p class="text-secondary">We couldn't find any recent articles. Please try again later.</p>
+        </div>
+    <% end %>
+
+    <% if @tags.present?%>
+    <!-- Tags Section -->
+    <section class="py-16 px-4 animate-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold mb-8 text-center text-purple">Explore by Tags</h3>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <% @tags.each do |tag| %>
+                    <%= link_to "##{tag.name.downcase}", public_tag_show_path(tag.name.downcase), class: "px-4 py-2 border border-theme rounded-full text-sm hover:bg-purple/20 hover:border-purple transition-colors" %>
+                <% end %>
+            </div>
+        </div>
+    </section>
+    <% else %>
+    <div class="text-center pt-16 pb-8"></div>
+        <h3 class="text-3xl font-bold mb-4 text-purple">No Tags Available</h3>
+        <p class="text-secondary">There are no tags available at this time.</p>
+    </div>
+    <% end %>
+
+
+    <% if @categories.present? %>
+    <!-- Categories Section -->
+    <section class="py-16 px-4 animate-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold mb-8 text-center text-purple">Explore by Categories</h3>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <% @categories.each do |category|%>
+                    <%= link_to "#{category.name}", public_category_show_path(category.slug), class: "px-6 py-2 rounded-full category-badge category-color-1 transition-all duration-300" %>
+                <% end %>
+            </div>
+        </div>
+    </section>
+    <% else %>
+    <div class="text-center pt-16 pb-8"></div>
+        <h3 class="text-3xl font-bold mb-4 text-purple">No Categories Available</h3>
+        <p class="text-secondary">There are no categories available at this time.</p>
+    </div>
+    <% end %>
+</main>

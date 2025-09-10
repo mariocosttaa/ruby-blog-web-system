@@ -1,0 +1,31 @@
+<main class="pt-24 pb-44">
+  <div class="max-w-6xl mx-auto px-14">
+    <!-- Search Header -->
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 font-title text-purple">Search Articles</h1>
+      <p class="text-xl text-secondary">Find the content you're looking for.</p>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="mb-12">
+      <form action="#" method="get" class="flex flex-col md:flex-row gap-4">
+        <input type="text" name="query" value="<%= params[:query] %>"" placeholder="Search for articles..." class="w-full px-4 py-3 rounded-lg bg-card border border-theme focus:outline-none focus:ring-2 focus:ring-purple">
+        <button type="submit" class="px-8 py-3 bg-purple hover:bg-purple/90 rounded-lg font-semibold transition-all duration-300">Search</button>
+      </form>
+    </div>
+
+    <!-- Search Results -->
+    <section>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% if @posts.present? %>
+            <%= render partial: 'public/_components/article_card', collection: @posts %>
+        <% else %>
+          <div class="col-span-full text-center py-16">
+            <p class="text-secondary">No articles found.</p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+  </div>
+</main>

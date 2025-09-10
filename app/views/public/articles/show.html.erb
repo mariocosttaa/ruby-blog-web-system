@@ -1,4 +1,4 @@
-<section class="pt-24 pb-16">
+<section class="">
   <div class="max-w-4xl mx-auto px-4">
     <!-- Post Header -->
     <header class="mb-8">
@@ -11,9 +11,6 @@
                         class: "w-full h-full object-cover" %>
         </div>
       <% else %>
-        <div class="w-full h-96 bg-gray-200 rounded-xl shadow-md mb-6 flex items-center justify-center text-gray-400">
-          <span>No Image</span>
-        </div>
       <% end %>
 
       <!-- Categories -->
@@ -28,7 +25,7 @@
       <!-- Title -->
       <h1 class="text-4xl md:text-5xl font-bold mb-4 font-title text-purple"><%= @post.title %></h1>
 
-    <span class="text-xs text-secondary"><%= time_ago(@post.created_at) %> </span> 
+      <span class="text-xs text-secondary"><%= time_ago(@post.created_at) %> </span> 
 
       <!-- Meta -->
       <div class="flex items-center text-sm text-secondary">
@@ -53,9 +50,84 @@
     <!-- Comments Section -->
     <section class="mt-16">
       <h2 class="text-2xl font-bold mb-8 text-purple">Comments</h2>
-      <div class="bg-card border border-theme rounded-lg p-8 text-center">
-        <p class="text-secondary">Comments are coming soon!</p>
+
+      <!-- New Comment Form -->
+      <div class="bg-card border border-theme rounded-lg mb-8">
+        <!-- Comment Header (Clickable) -->
+        <div class="p-6 cursor-pointer hover:bg-theme/5 dark:hover:bg-theme/10 transition-colors" onclick="toggleCommentForm()">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold text-purple">Leave a Comment</h3>
+            <svg id="comment-arrow" class="w-6 h-6 text-purple transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Comment Form (Collapsible) -->
+        <div id="comment-form" class="hidden px-6 pb-6 border-t border-theme/20">
+          <%= form_with model: @new_comment, url: public_article_comment_path(@post.slug), method: :patch, local: true do |form| %>
+          
+              <%= render "public/_components/form_errors", errors: @new_comment.errors.full_messages %>
+
+            <div class="mb-4">
+              <%= form.label "Name *", class: "block text-sm font-medium mb-1", style: "color: var(--text-color);" %>
+              <%= form.text_field :name, placeholder: "Enter your name", required: true, class: "w-full border border-theme rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple", style: "background-color: var(--bg-color); color: var(--text-color);" %>
+            </div>
+            <div class="mb-4">
+              <%= form.label "Email *", class: "block text-sm font-medium mb-1", style: "color: var(--text-color);" %>
+              <%= form.email_field :email, placeholder: "Enter your email", required: true, class: "w-full border border-theme rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple", style: "background-color: var(--bg-color); color: var(--text-color);" %>
+            </div>
+            <div class="mb-4">
+              <%= form.label "Comment *", class: "block text-sm font-medium mb-1", style: "color: var(--text-color);" %>
+              <%= form.text_area :comment, rows: 4, placeholder: "Enter your comment", required: true, class: "w-full border border-theme rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple", style: "background-color: var(--bg-color); color: var(--text-color);" %>
+            </div>
+            <div class="flex justify-end">
+              <%= form.submit "Post Comment", class: "bg-purple text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-dark transition-colors" %>
+            </div>
+          <% end %>
+        </div>
       </div>
+
+      <!-- Existing Comments -->
+      <div class="space-y-8">
+        <% saved_comments = @post.comments.select(&:persisted?) %>
+        <% if saved_comments.present? %>
+          <% saved_comments.each do |comment| %>
+            <div class="border border-theme rounded-lg p-6">
+              <div class="flex items-center mb-0 pb-1">
+                <span class="font-bold text-purple"><%= comment.name %></span>
+                <span class="text-secondary mx-2">•</span>
+                <span class="text-xs text-secondary"><%= time_ago(comment.created_at) %></span>
+              </div>
+              <p class="text-text-color"><%= comment.comment %></p>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="bg-card border border-theme rounded-lg p-8 text-center">
+            <p class="text-secondary">No comments yet. Be the first to comment!</p>
+          </div>
+        <% end %>
+      </div>
+      
     </section>
+
+
   </div>
 </section>
+
+<script>
+function toggleCommentForm() {
+  const form = document.getElementById('comment-form');
+  const arrow = document.getElementById('comment-arrow');
+  
+  if (form.classList.contains('hidden')) {
+    // Show form
+    form.classList.remove('hidden');
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    // Hide form
+    form.classList.add('hidden');
+    arrow.style.transform = 'rotate(0deg)';
+  }
+}
+</script>

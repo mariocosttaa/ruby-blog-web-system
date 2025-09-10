@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarioTechPortal - Tech News & Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/typography@0.5.x"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <div id="preloader" class="fixed top-0 left-0 w-full h-full bg-bg-color z-50 flex justify-center items-center">
+      <div class="loader"></div>
+    </div>
+    <!-- Navbar -->
+    <%= render "layouts/public/parts/navbar" %>
+    <main class="flex-grow">
+      <%= yield  %>
+    </main>
+    <!-- Footer -->
+    <%= render "layouts/public/parts/footer" %>
+    <!-- JavaScript -->
+    <script>
+      // Theme Toggle
+      function toggleTheme() {
+          const html = document.documentElement;
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+      }
+
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+          const mobileMenu = document.getElementById('mobile-menu');
+          mobileMenu.classList.toggle('hidden');
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function() {
+          // Apply saved theme
+          const savedTheme = localStorage.getItem('theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', savedTheme);
+
+          // Theme toggle functionality
+          const themeToggleBtn = document.getElementById('theme-toggle-btn');
+          const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle-btn');
+          if (themeToggleBtn) {
+              themeToggleBtn.addEventListener('click', toggleTheme);
+          }
+          if (mobileThemeToggleBtn) {
+              mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+          }
+
+          // Mobile menu functionality
+          const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+          if (mobileMenuBtn) {
+              mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+          }
+
+          // Add fade-in animation on scroll
+          const observerOptions = {
+              threshold: 0.1,
+              rootMargin: '0px 0px -50px 0px'
+          };
+
+          const observer = new IntersectionObserver(function(entries) {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.style.opacity = '1';
+                      entry.target.style.transform = 'translateY(0)';
+                  }
+              });
+          }, observerOptions);
+
+          // Observe all elements with .animate-on-scroll
+          document.querySelectorAll('.animate-on-scroll').forEach(element => {
+              element.style.opacity = '0';
+              element.style.transform = 'translateY(20px)';
+              element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+              observer.observe(element);
+          });
+      });
+
+      // Preloader
+      window.addEventListener('load', function() {
+          const preloader = document.getElementById('preloader');
+          if (preloader) {
+              preloader.style.opacity = '0';
+              setTimeout(function() {
+                  preloader.style.display = 'none';
+              }, 500);
+          }
+      });
+    </script>
+  </body>
+</html>

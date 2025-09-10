@@ -3,8 +3,9 @@
     namespace :panel do
       # Dashboard
       get "dashboard", to: "dashboard#index", as: :dashboard_index
+      get "", to: redirect("/panel/dashboard")
 
-      get "posts",          to: "posts#index",   as: :posts_index
+      get "posts",                to: "posts#index",   as: :posts_index
       get "posts/new",            to: "posts#new",     as: :new_post
       post "posts/create",        to: "posts#create",  as: :create_post
       get "posts/edit/:id",       to: "posts#edit",    as: :edit_post
@@ -26,6 +27,23 @@
       patch  "categories/update/:id",  to: "categories#update",  as: :update_category
       delete "categories/destroy/:id", to: "categories#destroy", as: :destroy_category
     end
+
+    # PUBLIC ROUTES
+    get "/", to: "public/home#index", as: :public_home_index
+    get "/articles", to: "public/articles#index", as: :public_articles_index
+    get "/article/:slug", to: "public/articles#show", as: :public_article_show
+
+    get "/tags", to: "public/tags#index", as: :public_tags_index
+    get "/tag/:slug", to: "public/tags#show", as: :public_tag_show
+
+    get "/categories", to: "public/categories#index", as: :public_categories_index
+    get "/category/:slug", to: "public/categories#show", as: :public_category_show
+
+    get "/search", to: "public/search#show", as: :public_search_index
+    get "/search/:query", to: "public/search#show", as: :public_search_show
+
+
+    root "public/home#index"
 
     devise_for :users
     get "up" => "rails/health#show", as: :rails_health_check

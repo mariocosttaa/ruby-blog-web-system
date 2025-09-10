@@ -122,32 +122,37 @@ rails db:migrate
 rails db:seed
 ```
 
-### 5. Start the Application
+### 5. Build Assets (TailwindCSS)
+```bash
+rails tailwindcss:build
+```
+
+### 6. Start the Application
 ```bash
 rails server
 ```
 
-### 6. Access the Application
+### 7. Access the Application
 - **Public Blog**: http://localhost:3000
 - **Admin Panel**: http://localhost:3000/panel/dashboard
 
-### 7. Default Admin Account
+### 8. Default Admin Account
 After running `rails db:seed`, you can log in with:
 - **Email**: `admin@example.com`
 - **Password**: `12345678`
 
-### 8. Development Mode (Optional)
+### 9. Development Mode (Optional)
 For development with live reloading:
 ```bash
 bin/dev
 ```
 
-### 9. Run Tests
+### 10. Run Tests
 ```bash
 rails test
 ```
 
-### 10. Stop Services
+### 11. Stop Services
 ```bash
 docker-compose down
 ```
@@ -272,6 +277,11 @@ rails db:migrate
 
 ```bash
 rails db:seed
+```
+
+### Build Assets
+```bash
+rails tailwindcss:build
 ```
 
 ### Start the Application

@@ -25,7 +25,7 @@
         <!-- Featured Image -->
         <div class="mb-3">
           <%= form.label :image, "Featured Image", class: "form-label" %>
-          <% if @post.image.attached? %>
+          <% if @post.image.present? && @post.image.attached? %>
             <div class="mb-2">
               <img src="<%= url_for(@post.image) %>" alt="Current post image" class="img-thumbnail" style="max-width: 200px;">
               <small class="form-text text-muted">Current image</small>

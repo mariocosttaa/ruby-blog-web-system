@@ -63,8 +63,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   create_table "post_comments", force: :cascade do |t|
     t.integer "post_id", null: false
     t.string "name", null: false
-    t.boolean "email", null: false
-    t.string "description", null: false
+    t.string "email", null: false
     t.string "comment", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,6 +89,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_posts_on_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["title"], name: "index_posts_on_title", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -121,7 +121,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_134853) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "post_categories", "categories", on_delete: :cascade
   add_foreign_key "post_categories", "posts", on_delete: :cascade
-  add_foreign_key "post_comments", "posts"
+  add_foreign_key "post_comments", "posts", on_delete: :cascade
   add_foreign_key "post_tags", "posts", on_delete: :cascade
   add_foreign_key "post_tags", "tags", on_delete: :cascade
   add_foreign_key "posts", "users", on_delete: :cascade

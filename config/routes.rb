@@ -32,6 +32,7 @@
     get "/", to: "public/home#index", as: :public_home_index
     get "/articles", to: "public/articles#index", as: :public_articles_index
     get "/article/:slug", to: "public/articles#show", as: :public_article_show
+    patch "/article/comment/:slug", to: "public/articles#create_comment", as: :public_article_comment
 
     get "/tags", to: "public/tags#index", as: :public_tags_index
     get "/tag/:slug", to: "public/tags#show", as: :public_tag_show
@@ -41,6 +42,9 @@
 
     get "/search", to: "public/search#show", as: :public_search_index
     get "/search/:query", to: "public/search#show", as: :public_search_show
+
+    get "/privacy-policy", to: "public/statics#privacy_policy", as: :public_privacy_policy_index
+    get "/terms-of-use", to: "public/statics#terms_of_use", as: :public_terms_of_use_index
 
 
     root "public/home#index"

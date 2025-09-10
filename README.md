@@ -2,7 +2,8 @@
 
 [![Ruby](https://img.shields.io/badge/Ruby-3.2+-red.svg)](https://www.ruby-lang.org/)
 [![Rails](https://img.shields.io/badge/Rails-8.0.2-red.svg)](https://rubyonrails.org/)
-[![SQLite](https://img.shields.io/badge/SQLite-3-blue.svg)](https://www.sqlite.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-blue.svg)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-20+-blue.svg)](https://www.docker.com/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.0+-38B2AC.svg)](https://tailwindcss.com/)
 [![Devise](https://img.shields.io/badge/Devise-Auth-purple.svg)](https://github.com/heartcombo/devise)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -11,11 +12,11 @@ A modern, feature-rich blog management system built with Ruby on Rails 8, featur
 
 ## 📋 Table of Contents
 
+- [🚀 Quick Start](#-quick-start)
 - [✨ Features](#-features)
 - [🏗️ Architecture](#️-architecture)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [📦 Installation](#-installation)
-- [🚀 Quick Start](#-quick-start)
 - [📊 Database Schema](#-database-schema)
 - [🎨 Frontend Features](#-frontend-features)
 - [🔐 Authentication & Security](#-authentication--security)
@@ -26,6 +27,78 @@ A modern, feature-rich blog management system built with Ruby on Rails 8, featur
 - [🌐 Deployment](#-deployment)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Docker and Docker Compose installed
+- Git
+
+### 1. Clone and Setup
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/ruby-blog-web-system.git
+cd ruby-blog-web-system
+
+# Build the Docker containers
+docker-compose build
+
+# Start the services (PostgreSQL + Rails)
+docker-compose up -d
+```
+
+### 2. Database Setup
+```bash
+# Run database migrations
+docker-compose exec web rails db:migrate
+
+# Seed with sample data
+docker-compose exec web rails db:seed
+```
+
+### 3. Build Assets
+```bash
+# Build TailwindCSS and other assets
+docker-compose exec web rails assets:precompile
+```
+
+### 4. Access the Application
+- **Public Blog**: http://localhost:3000
+- **Admin Panel**: http://localhost:3000/panel/dashboard
+
+### 5. Default Admin Account
+After running `rails db:seed`, you can log in with:
+- **Email**: `admin@example.com`
+- **Password**: `12345678`
+
+### 6. Development Mode
+For development with live reloading:
+```bash
+# Use the development compose file
+docker-compose -f docker-compose.dev.yml up
+
+# Or run individual services
+docker-compose up postgres
+bin/dev
+```
+
+### 7. Run Tests
+```bash
+# Run the complete test suite
+docker-compose exec web rails test
+
+# Run specific test files
+docker-compose exec web rails test test/controllers/panel/posts_controller_test.rb
+```
+
+### 8. Stop the Application
+```bash
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (clean slate)
+docker-compose down -v
+```
 
 ## ✨ Features
 
@@ -83,7 +156,7 @@ app/
 ### Backend
 - **Ruby 3.2+** - Programming language
 - **Rails 8.0.2** - Web application framework
-- **SQLite 3** - Database (development)
+- **PostgreSQL 13+** - Primary database
 - **Devise** - Authentication solution
 - **Hashids** - Secure ID generation
 - **Active Storage** - File uploads and attachments
@@ -96,25 +169,23 @@ app/
 - **ERB** - Embedded Ruby templating
 
 ### Development Tools
-- **Rails Testing** - Built-in testing framework
-- **Capybara** - Integration testing
-- **Selenium** - Browser automation
+- **Rails Testing** - Built-in testing framework (comprehensive test suite)
+- **Docker** - Containerization and development environment
+- **Docker Compose** - Multi-container orchestration
 - **RuboCop** - Code linting and formatting
 - **Brakeman** - Security vulnerability scanner
 
 ### Deployment
-- **Kamal** - Container deployment
 - **Docker** - Containerization
+- **Docker Compose** - Production orchestration
+- **PostgreSQL** - Production database
 - **Puma** - Web server
-- **Thruster** - HTTP acceleration
+- **Kamal** - Container deployment (optional)
 
 ## 📦 Installation
 
 ### Prerequisites
-- Ruby 3.2 or higher
-- Rails 8.0.2 or higher
-- SQLite 3
-- Node.js (for asset compilation)
+- Docker 20+ and Docker Compose
 - Git
 
 ### Clone the Repository
@@ -123,60 +194,41 @@ git clone https://github.com/yourusername/ruby-blog-web-system.git
 cd ruby-blog-web-system
 ```
 
-### Install Dependencies
+### Docker Setup
 ```bash
-# Install Ruby gems
-bundle install
+# Build the containers
+docker-compose build
 
-# Install JavaScript dependencies
-bin/importmap install
+# Start the services
+docker-compose up -d
+
+# Run database setup
+docker-compose exec web rails db:migrate
+docker-compose exec web rails db:seed
+
+# Build assets
+docker-compose exec web rails assets:precompile
 ```
 
-### Database Setup
+### Development Setup (Alternative)
+If you prefer local development without Docker:
+
 ```bash
-# Create and migrate database
+# Install Ruby 3.2+ and PostgreSQL
+# Install dependencies
+bundle install
+bin/importmap install
+
+# Setup database
 rails db:create
 rails db:migrate
-
-# Seed with sample data
 rails db:seed
-```
 
-### Start the Server
-```bash
-# Development server
-rails server
-
-# Or use the dev script
+# Start development server
 bin/dev
 ```
 
 Visit `http://localhost:3000` to see the application.
-
-## 🚀 Quick Start
-
-### 1. Access the Application
-- **Public Blog**: `http://localhost:3000`
-- **Admin Panel**: `http://localhost:3000/panel/dashboard`
-
-### 2. Default Admin Account
-After running `rails db:seed`, you can log in with:
-- **Email**: `admin@example.com`
-- **Password**: `12345678`
-
-### 3. Create Your First Post
-1. Navigate to the admin panel
-2. Click "Create Post"
-3. Fill in the post details
-4. Add categories and tags
-5. Upload an image (optional)
-6. Publish your post
-
-### 4. Explore Features
-- **Public Blog**: Browse posts, categories, and tags
-- **Search**: Use the search functionality
-- **Comments**: Add comments to posts
-- **Admin Management**: Manage all content from the admin panel
 
 ## 📊 Database Schema
 
@@ -367,20 +419,25 @@ test/
 
 ### Test Coverage
 - **Model Tests**: Validations, associations, and methods
-- **Controller Tests**: Actions, redirects, and responses
+- **Controller Tests**: Complete CRUD testing for all controllers
+- **Panel Tests**: Admin functionality with authentication
+- **Public Tests**: Public-facing functionality and user experience
 - **Integration Tests**: User workflows and API endpoints
 - **System Tests**: End-to-end browser testing
 
 ### Running Tests
 ```bash
-# Run all tests
+# Run all tests (Docker)
+docker-compose exec web rails test
+
+# Run all tests (Local)
 rails test
 
 # Run specific test files
-rails test test/models/post_test.rb
+docker-compose exec web rails test test/controllers/panel/posts_controller_test.rb
 
 # Run with coverage
-COVERAGE=true rails test
+COVERAGE=true docker-compose exec web rails test
 ```
 
 ### Test Examples
@@ -440,7 +497,10 @@ Create a `.env` file in the root directory:
 
 ```env
 # Database
-DATABASE_URL=sqlite3:db/development.sqlite3
+DATABASE_URL=postgresql://postgres:password@localhost:5432/ruby_blog_web_system_development
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=password
+DATABASE_HOST=localhost
 
 # Rails
 RAILS_ENV=development
@@ -453,18 +513,25 @@ DEVISE_SECRET_KEY=your_devise_secret_key
 ### Database Configuration
 ```yaml
 # config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  timeout: 5000
+  <<: *default
+  database: ruby_blog_web_system_development
 
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
+  <<: *default
+  database: ruby_blog_web_system_test
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  <<: *default
+  database: ruby_blog_web_system_production
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
 ```
 
 ### TailwindCSS Configuration
@@ -519,7 +586,7 @@ module.exports = {
 ```dockerfile
 # Dockerfile
 FROM ruby:3.2-alpine
-RUN apk add --no-cache build-base sqlite-dev
+RUN apk add --no-cache build-base postgresql-dev
 WORKDIR /app
 COPY Gemfile* ./
 RUN bundle install
@@ -527,6 +594,35 @@ COPY . .
 RUN rails assets:precompile
 EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0"]
+```
+
+### Docker Compose Production
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/ruby_blog_web_system_production
+    depends_on:
+      - postgres
+    volumes:
+      - ./storage:/app/storage
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=ruby_blog_web_system_production
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
 ```
 
 ### Kamal Deployment
@@ -592,9 +688,35 @@ For questions or support, please open an issue on GitHub or contact the maintain
 
 ## 🚀 Quick Commands
 
+### Docker Commands
+```bash
+# Start all services
+docker-compose up -d
+
+# Build containers
+docker-compose build
+
+# Run Rails commands
+docker-compose exec web rails [command]
+
+# Run tests
+docker-compose exec web rails test
+
+# Database operations
+docker-compose exec web rails db:migrate
+docker-compose exec web rails db:seed
+
+# Console access
+docker-compose exec web rails console
+
+# Stop services
+docker-compose down
+```
+
+### Local Development Commands
 ```bash
 # Start development server
-rails server
+bin/dev
 
 # Run tests
 rails test
